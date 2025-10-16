@@ -38,30 +38,20 @@ cd control_pagos
 cp .env.example .env
 ```
 
-2. Configura la conexión a la base de datos en el archivo `.env`:
 
-```
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=nombre_de_la_base_de_datos
-DB_USERNAME=usuario_de_sail
-DB_PASSWORD=contraseña_de_sail
-```
-
-3. Instala las dependencias de PHP con Composer:
+2. Instala las dependencias de PHP con Composer:
 
 ```bash
 composer install
 ```
 
-4. Genera la clave de la aplicación:
+3. Genera la clave de la aplicación:
 
 ```bash
 php artisan key:generate
 ```
 
-5. Instala las dependencias de JavaScript:
+4. Instala las dependencias de JavaScript:
 
 ```bash
 npm install
