@@ -74,6 +74,11 @@ wsl --install -d Ubuntu
 
 (Te pedirá que crees un usuario y contraseña. Nota: al escribir la contraseña en terminal, no se mostrará ningún carácter, pero sí se está registrando)
 
+Una vez instalado, la terminal de WSL mostrará algo como:
+```
+usuario@PC:/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/65f2e78d7ed5c0ed17294566c79acd50cabf20d37f4721f73138d5694561eb9d$
+```
+
 Para verificar si ya está instalado:
 
 ```bash
@@ -91,13 +96,7 @@ php artisan sail:install
 
 2. Abre Docker Desktop
 
-3. Desde WSL, navega a la carpeta del proyecto:
-
-```bash
-cd /mnt/c/Users/PC/Desktop/Laravel/control_pagos
-```
-
-4. Otorga permisos para Docker:
+3. Otorga permisos para Docker:
 
 ```bash
 sudo usermod -aG docker $USER
@@ -128,6 +127,12 @@ Este comando compilará los archivos CSS y JavaScript, incluyendo los estilos de
 ## Acceder a la Aplicación
 
 Una vez que los contenedores estén en ejecución y hayas compilado los assets, puedes acceder a la aplicación en tu navegador:
+
+```
+http://localhost
+```
+
+Para acceder a la base de datos, utiliza:
 
 ```
 http://localhost:8081
