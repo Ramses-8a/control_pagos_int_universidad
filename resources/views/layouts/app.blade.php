@@ -1,143 +1,71 @@
-<x-app-layout>
-    {{-- Librerías JS para Calendario y Gráficos --}}
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- INICIALIZACIÓN DE FULLCALENDAR ---
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                locale: 'es',
-                initialView: 'dayGridMonth',
-                height: '100%',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,listWeek'
-                },
-                events: [
-                    { title: 'Pago a Empleado Y', start: '2025-10-18', color: '#ff9f40' },
-                    { title: 'Factura #2025-087 Vence', start: '2025-10-10', color: '#ea5555' },
-                    { title: 'Kickoff Proyecto Alfa', start: '2025-10-15T11:00:00', color: '#0052cc' }
-                ]
-            });
-            calendar.render();
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-            // --- INICIALIZACIÓN DEL GRÁFICO CIRCULAR ---
-            const ctx = document.getElementById('accountsChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Cobrado', 'Pendiente'],
-                    datasets: [{
-                        data: [25, 75], // 25% cobrado, 75% pendiente
-                        backgroundColor: ['#28a745', '#e9ecef'],
-                        borderColor: ['#ffffff'],
-                        borderWidth: 2,
-                        cutout: '75%'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } }
-                }
-            });
-        });
-    </script>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    
+    <link rel="stylesheet" href="{{ asset('css/AppBlade.css') }}">
 
-    <div class="dashboard-grid-container">
-        <div class="summary-section">
-            <h3 class="section-title">Resumen</h3>
-            <div class="summary-cards">
-                <div class="card">
-                    <p class="card-title">INGRESOS COBRADOS</p>
-                    <p class="card-amount color-green">$15,200.00</p>
-                    <p class="card-detail">vs. $12,500.00 el mes pasado</p>
-                </div>
-                <div class="card">
-                    <p class="card-title">GASTOS PAGADOS</p>
-                    <p class="card-amount color-orange">$8,300.00</p>
-                </div>
-                <div class="card">
-                    <p class="card-title">GANANCIA NETA</p>
-                    <p class="card-amount color-blue">$6,900.00</p>
-                </div>
-                <div class="card chart-card">
-                    <p class="card-title">Estado de Cuentas por Cobrar</p>
-                    <div class="chart-container"><canvas id="accountsChart"></canvas></div>
-                    <p class="card-detail"><span class="legend-dot green"></span>Cobrado (25%)</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="dashboard-section calendar-section">
-            <h3 class="section-title">Calendario de Vencimientos y Actividades</h3>
-            <div id="calendar"></div>
-        </div>
-
-        <div class="alerts-section">
-             <h3 class="section-title">Alertas y Acciones Urgentes</h3>
-             <div class="alert-item">
-                <span class="alert-icon red"></span>
-                <p>Factura #2025-087 de "Cliente X" tiene 5 días de vencida.</p>
-                <button class="btn-action">Enviar Recordatorio</button>
-            </div>
-            <div class="alert-item">
-                <span class="alert-icon orange"></span>
-                <p>El pago de nómina para "Empleado Y" debe realizarse en 3 días.</p>
-                <button class="btn-action">Procesar Pago</button>
-            </div>
-        </div>
-
-        <div class="upcoming-activities-section">
-            <h3 class="section-title">Pendientes y Actividades Próximas</h3>
-            <ul>
-                <li>
-                    <span class="activity-bullet blue"></span>
-                    <div>
-                        <p>Reunión de kickoff - Proyecto Alfa</p>
-                        <p class="activity-time">Hoy a las 11:00 AM</p>
-                    </div>
+    @vite(['resources/js/app.js'])
+</head>
+<body class="font-sans antialiased">
+    <div class="main-container">
+        <div class="sidebar">
+            <ul class="sidebar-nav">
+                <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
-                <li>
-                    <span class="activity-bullet"></span>
-                    <div>
-                        <p>Entrega de borrador a Cliente Z</p>
-                        <p class="activity-time">17 de Octubre, 2025</p>
-                    </div>
+                <li><a href="#"><i class="fas fa-users"></i> Clientes</a></li>
+                <li><a href="#"><i class="fas fa-project-diagram"></i> Proyectos</a></li>
+                <li><a href="#"><i class="fas fa-user-tie"></i> Empleados</a></li>
+                <li><a href="#"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+                <li><a href="#"><i class="fas fa-book"></i> Catálogo</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+
+                <li class="profile-item" x-data="{ open: false }">
+                    <a href="#" @click="open = !open" class="profile-link">
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-user"></i>
+                            <span style="margin-left: 8px;">{{ Auth::user()->name }}</span>
+                        </div>
+                        <svg style="height: 1rem; width: 1rem; fill: currentColor; transition: transform 0.2s;" x-bind:style="{ 'transform': open ? 'rotate(180deg)' : 'rotate(0deg)' }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+
+                    <ul x-show="open" class="profile-submenu" style="display: none;" x-transition>
+                        <li>
+                            <a href="{{ route('profile.edit') }}">
+                                <i class="fas fa-user-circle"></i> {{ __('Profile') }}
+                            </a>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                                @csrf
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault(); this.closest('form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i> {{ __('Log Out') }}
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
-            </ul>
+                </ul>
         </div>
         
-        <div class="dashboard-section projects-section">
-            <h3 class="section-title">Salud de Proyectos Activos</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Proyecto</th><th>Cliente</th><th>Rentabilidad</th><th>Estado</th><th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Diseño Web Corp</td><td>Cliente Corp</td><td class="profit-positive">+19%</td>
-                        <td><span class="status-tag status-delayed">Retrasado</span></td>
-                        <td><button class="btn-manage">Gestionar</button></td>
-                    </tr>
-                    <tr>
-                        <td>App Móvil Corp</td><td>Mobile Inc.</td><td class="profit-neutral">+2%</td>
-                        <td><span class="status-tag status-progress">En Progreso</span></td>
-                        <td><button class="btn-manage">Gestionar</button></td>
-                    </tr>
-                    <tr>
-                        <td>App Móvil UX</td><td>Creative Solutions</td><td class="profit-negative">-25%</td>
-                        <td><span class="status-tag status-paused">En Pausa</span></td>
-                        <td><button class="btn-manage">Gestionar</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="content">
+            <main>
+                {{ $slot }}
+            </main>
         </div>
     </div>
-</x-app-layout>
+</body>
+</html>
