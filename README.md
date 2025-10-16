@@ -58,54 +58,61 @@ npm install
 
 ## Configuración de WSL y Docker
 
-### Configurar WSL
+### Requisitos
 
-1. Habilita WSL en Windows:
-   - Abre PowerShell como administrador y ejecuta:
-   ```powershell
-   wsl --install
-   ```
-   - Reinicia tu computadora después de la instalación.
+Para ejecutar este proyecto, necesitas tener instalados:
+- WSL (Windows Subsystem for Linux)
+- Docker Desktop para Windows
 
-2. Instala una distribución de Linux (recomendado Ubuntu):
-   - Abre Microsoft Store
-   - Busca "Ubuntu" e instala la versión más reciente
+### Configuración de WSL
 
-3. Configura tu usuario y contraseña en Ubuntu cuando se inicie por primera vez.
+Si necesitas instalar Ubuntu en WSL:
 
-### Configurar Docker
+```bash
+wsl --install -d Ubuntu
+```
 
-1. Instala Docker Desktop para Windows desde [la página oficial de Docker](https://www.docker.com/products/docker-desktop/).
+(Te pedirá que crees un usuario y contraseña. Nota: al escribir la contraseña en terminal, no se mostrará ningún carácter, pero sí se está registrando)
 
-2. Durante la instalación, asegúrate de seleccionar la opción para usar WSL 2.
+Para verificar si ya está instalado:
 
-3. Después de instalar Docker Desktop, abre la aplicación y ve a Configuración > Resources > WSL Integration.
-   - Habilita la integración con tu distribución de Linux instalada.
+```bash
+wsl -l -v
+```
 
-### Ejecutar el Proyecto con Docker
+### Configuración de Laravel Sail
 
-1. Desde WSL, navega a la carpeta del proyecto:
+1. Instala Laravel Sail (desde la carpeta del proyecto):
+
+```bash
+composer require laravel/sail --dev
+php artisan sail:install
+```
+
+2. Abre Docker Desktop
+
+3. Desde WSL, navega a la carpeta del proyecto:
 
 ```bash
 cd /mnt/c/Users/PC/Desktop/Laravel/control_pagos
 ```
 
-2. Inicia los contenedores de Docker:
+4. Otorga permisos para Docker:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+5. Inicia los contenedores de Docker:
 
 ```bash
 ./vendor/bin/sail up -d
 ```
 
-Si es la primera vez que ejecutas Sail, puedes crear un alias para facilitar su uso:
+6. Ejecuta las migraciones para crear las tablas en la base de datos:
 
 ```bash
-alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
-```
-
-3. Ejecuta las migraciones para crear las tablas en la base de datos:
-
-```bash
-sail artisan migrate
+./vendor/bin/sail artisan migrate
 ```
 
 ## Compilar Assets y Estilos de Tailwind
@@ -123,15 +130,35 @@ Este comando compilará los archivos CSS y JavaScript, incluyendo los estilos de
 Una vez que los contenedores estén en ejecución y hayas compilado los assets, puedes acceder a la aplicación en tu navegador:
 
 ```
-http://localhost
+http://localhost:8081
 ```
+
+## Ejecutar Comandos de Laravel con Sail
+
+Para ejecutar comandos de Laravel, sustituye `php` por `./vendor/bin/sail`. Por ejemplo:
+
+```bash
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan make:controller NuevoController
+./vendor/bin/sail composer require paquete/nombre
+```
+
+## Compartir el Proyecto
+
+Para compartir el proyecto, puedes usar Git como lo harías normalmente. Cuando alguien clone el repositorio, solo necesitará ejecutar:
+
+```bash
+./vendor/bin/sail up -d
+```
+
+para levantar los contenedores y tener el entorno funcionando.
 
 ## Detener los Contenedores
 
 Cuando hayas terminado de trabajar con la aplicación, puedes detener los contenedores de Docker:
 
 ```bash
-sail down
+./vendor/bin/sail down
 ```
 
 ---
