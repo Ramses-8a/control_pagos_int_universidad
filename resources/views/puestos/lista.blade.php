@@ -36,9 +36,9 @@
                 <small>
                     <a href="{{ route('puestos.editar', $puesto->id) }}">Editar</a> | 
                     <form action="{{ route('puestos.eliminar', $puesto->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('¿Estás seguro de eliminar este puesto?')">Eliminar</button>
+                            @csrf
+                            @method('DELETE')
+                         <button type="submit" onclick="return confirm('¿Estás seguro de desactivar este puesto?')">Desactivar</button>
                     </form>
                 </small>
             </li>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crear Nuevo Puesto</title>
+    <title>Crear nuevo puesto</title>
 </head>
 <body>
-    <h1>Crear Nuevo Puesto</h1>
+    <h1>Crear nuevo puesto</h1>
 
     @if ($errors->any())
         <div>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registrar Empleado</title>
+    <title>Editar Empleado</title>
 </head>
 <body>
-    <h1>Registrar nuevo empleado</h1>
+    <h1>Editar Empleado: {{ $empleado->nombre }} {{ $empleado->apellidos }}</h1>
 
     @if ($errors->any())
         <div>
@@ -21,17 +21,18 @@
         <div>{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('empleados.store') }}" method="POST">
+    <form action="{{ route('empleados.actualizar', $empleado->id) }}" method="POST">
         @csrf
+        @method('PUT')
         
         <div>
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" required>
+            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $empleado->nombre) }}" required>
         </div>
 
         <div>
             <label for="apellidos">Apellidos:</label>
-            <input type="text" name="apellidos" id="apellidos" value="{{ old('apellidos') }}" required>
+            <input type="text" name="apellidos" id="apellidos" value="{{ old('apellidos', $empleado->apellidos) }}" required>
         </div>
 
         <div>
@@ -39,25 +40,24 @@
             <select name="puesto_id" id="puesto_id" required>
                 <option value="">Seleccione un puesto</option>
                 @foreach($puestos as $puesto)
-                    <option value="{{ $puesto->id }}" {{ old('puesto_id') == $puesto->id ? 'selected' : '' }}>
+                    <option value="{{ $puesto->id }}" {{ old('puesto_id', $empleado->puesto_id) == $puesto->id ? 'selected' : '' }}>
                         {{ $puesto->nombre }}
                     </option>
                 @endforeach
             </select>
-            @error('puesto_id') <span style="color: red;">{{ $message }}</span> @enderror
         </div>
 
         <div>
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" value="{{ old('email') }}" required>
+            <input type="email" name="email" id="email" value="{{ old('email', $empleado->email) }}" required>
         </div>
 
         <div>
             <label for="telefono">Teléfono:</label>
-            <input type="text" name="telefono" id="telefono" value="{{ old('telefono') }}">
+            <input type="text" name="telefono" id="telefono" value="{{ old('telefono', $empleado->telefono) }}">
         </div>
 
-        <button type="submit">Registrar Empleado</button>
+        <button type="submit">Actualizar Empleado</button>
         <a href="{{ route('empleados.lista') }}">Cancelar</a>
     </form>
 </body>

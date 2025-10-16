@@ -26,16 +26,14 @@
                 <br>
                 Teléfono: {{ $empleado->telefono ?? 'No especificado' }}
                 <br>
-                <small>
-                   
-                    <a href="#">Editar</a> | 
-                    <form action="#" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit">Desactivar</button>
-                    </form>
+               <small>
+                <a href="{{ route('empleados.editar', $empleado->id) }}">Editar</a> | 
+                <form action="{{ route('empleados.eliminar', $empleado->id) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('¿Estás seguro de desactivar este empleado?')">Desactivar</button>
+                </form>
                 </small>
-            </li>
             <hr>
             @endforeach
         </ul>

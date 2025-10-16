@@ -44,7 +44,7 @@ class PuestoController extends Controller
     public function edit($id)
     {
         $puesto = Puesto::findOrFail($id);
-        return view('puestos.edit', compact('puesto'));
+        return view('puestos.editar', compact('puesto'));
     }
 
     public function update(Request $request, $id)
@@ -70,18 +70,19 @@ class PuestoController extends Controller
     }
 
     public function destroy($id)
-    {
-        $puesto = Puesto::findOrFail($id);
-        
-        // Verificar si hay empleados usando este puesto
-        if ($puesto->empleados()->count() > 0) {
-            return redirect()->route('puestos.lista') 
-                ->with('error', 'No se puede eliminar el puesto porque tiene empleados asignados.');
-        }
-
-        $puesto->delete();
-
+{
+    $puesto = Puesto::findOrFail($id);
+    
+    
+    if ($puesto->empleados()->count() > 0) {
         return redirect()->route('puestos.lista') 
-            ->with('success', 'Puesto eliminado correctamente.');
+            ->with('error', 'No se puede desactivar el puesto porque tiene empleados asignados.');
     }
+
+    
+    $puesto->update(['estatus' => 'inactivo']);
+
+    return redirect()->route('puestos.lista') 
+        ->with('success', 'Puesto desactivado correctamente.');
+}
 }
