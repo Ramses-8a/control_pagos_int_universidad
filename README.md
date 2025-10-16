@@ -38,19 +38,30 @@ cd control_pagos
 cp .env.example .env
 ```
 
-2. Instala las dependencias de PHP con Composer:
+2. Configura la conexión a la base de datos en el archivo `.env`:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=nombre_de_la_base_de_datos
+DB_USERNAME=usuario_de_sail
+DB_PASSWORD=contraseña_de_sail
+```
+
+3. Instala las dependencias de PHP con Composer:
 
 ```bash
 composer install
 ```
 
-3. Genera la clave de la aplicación:
+4. Genera la clave de la aplicación:
 
 ```bash
 php artisan key:generate
 ```
 
-4. Instala las dependencias de JavaScript:
+5. Instala las dependencias de JavaScript:
 
 ```bash
 npm install
@@ -84,6 +95,15 @@ Para verificar si ya está instalado:
 ```bash
 wsl -l -v
 ```
+
+El resultado debería ser similar a:
+```
+   NAME              STATE           VERSION 
+ * Ubuntu            Running         2 
+   docker-desktop    Running         2
+```
+
+Para acceder a la terminal de Ubuntu WSL, haz clic en el botón "+" de las terminales y selecciona la opción que dice "Ubuntu WSL".
 
 ### Configuración de Laravel Sail
 
