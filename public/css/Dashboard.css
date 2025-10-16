@@ -1,232 +1,252 @@
-.section-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
+/* =============================================== */
+/* Contenedor Principal y Layout del Grid          */
+/* =============================================== */
+
+body {
+    background-color: #f8f9fa; /* Un fondo global muy claro para que las tarjetas resalten */
 }
 
-/* Summary Section */
-.summary-section {
-    background-color: #fff; /* Dark background for summary */
-    color: #333;
-    padding: 20px;
-    border-radius: 8px;
+.dashboard-grid-container {
+    padding: 24px;
+    display: grid;
+    gap: 24px; /* Espacio entre cada widget */
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+    grid-template-areas:
+        "summary summary summary"
+        "calendar calendar alerts"
+        "calendar calendar activities"
+        "projects projects projects";
 }
+
+/* Asignamos cada sección a su área en el grid */
+.summary-section { grid-area: summary; }
+.calendar-section { grid-area: calendar; display: flex; flex-direction: column; }
+.alerts-section { grid-area: alerts; }
+.upcoming-activities-section { grid-area: activities; }
+.projects-section { grid-area: projects; }
+
+/* =============================================== */
+/* Estilos Generales para las Secciones (Contenedores) */
+/* =============================================== */
+
+.dashboard-section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px; /* Bordes un poco más redondeados */
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+.section-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* =============================================== */
+/* Estilos para la Sección de Resumen (Cards)      */
+/* =============================================== */
 
 .summary-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr); /* 4 cards en una fila */
     gap: 20px;
 }
 
-.summary-cards .card {
-    background-color: #fff; /* Slightly lighter dark for cards */
-    padding: 15px;
+.card {
+    background-color: #f8f9fa; /* Un fondo ligeramente distinto para las tarjetas internas */
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
-    text-align: center;
-    border: 1px solid #eee;
-}
-
-.summary-cards .card .amount {
-    font-size: 2em;
-    font-weight: bold;
-    color: #4CAF50; /* Green for income */
-    margin: 10px 0;
-}
-
-.summary-cards .card:nth-child(2) .amount {
-    color: #FFC107; /* Amber for expenses */
-}
-
-.summary-cards .card:nth-child(3) .amount {
-    color: #2196F3; /* Blue for net profit */
-}
-
-.summary-cards .card .detail {
-    font-size: 0.8em;
-    color: #777;
-}
-
-.summary-cards .chart-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+}
+
+.card-title {
+    margin: 0 0 8px 0;
+    font-size: 0.875rem; /* 14px */
+    color: #64748b;
+    font-weight: 500;
+}
+
+.card-amount {
+    margin: 0;
+    font-size: 1.75rem; /* 28px */
+    font-weight: 700;
+}
+
+.card-detail {
+    margin: 8px 0 0 0;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    display: flex;
     align-items: center;
 }
 
-.chart-placeholder {
+/* Colores para los montos */
+.color-green { color: #28a745; }
+.color-orange { color: #fd7e14; }
+.color-blue { color: #0052cc; }
+
+/* =============================================== */
+/* Estilos para la Card del Gráfico                */
+/* =============================================== */
+
+.chart-card {
+    justify-content: space-between;
+    text-align: center;
+    background-color: #ffffff; /* El fondo del gráfico se mantiene blanco puro */
+}
+
+.chart-container {
+    position: relative;
     width: 100px;
     height: 100px;
-    border-radius: 50%;
-    background-color: #eee; /* Placeholder for chart */
-    margin: 10px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #333;
-    font-size: 0.8em;
+    margin: 10px auto;
 }
 
-/* Main Content Grid */
-.main-content-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* Calendar/Projects on left, Alerts/Upcoming on right */
-    gap: 20px;
-}
-
-/* Calendar Section */
-.calendar-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.calendar-placeholder {
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.calendar-header {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.calendar-days span {
-    padding: 5px;
-    border: 1px solid #eee;
-    border-radius: 3px;
-}
-
-.calendar-events {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-    text-align: left;
-}
-
-.calendar-events li {
-    margin-bottom: 5px;
-    color: #555;
-}
-
-/* Alerts Section */
-.alerts-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-.alert-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    gap: 10px;
-}
-
-.alert-icon {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-.alert-icon.red { background-color: #F44336; }
-.alert-icon.orange { background-color: #FF9800; }
-.alert-icon.blue { background-color: #2196F3; }
-
-.alert-item p {
-    flex-grow: 1;
-    margin: 0;
-}
-
-.btn-action {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-}
-
-/* Projects Section */
-.projects-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    grid-column: 1 / 2; /* Spans the first column */
-}
-
-.projects-section table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.projects-section th, .projects-section td {
-    border: 1px solid #eee;
-    padding: 8px;
-    text-align: left;
-}
-
-.projects-section th {
-    background-color: #f8f8f8;
-    font-weight: bold;
-}
-
-.profit-positive {
-    color: #4CAF50;
-    font-weight: bold;
-}
-
-.btn-manage {
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.8em;
-}
-
-/* Upcoming Activities Section */
-.upcoming-activities-section {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    grid-column: 2 / 3; /* Spans the second column */
-}
-
-.upcoming-activities-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.upcoming-activities-section li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 15px;
-    gap: 10px;
-}
-
-.activity-bullet {
+.legend-dot {
+    display: inline-block;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #2196F3; /* Blue bullet */
-    margin-top: 5px; /* Align with text */
+    margin-right: 6px;
+}
+.legend-dot.green { background-color: #28a745; }
+.chart-card .card-detail { justify-content: center; }
+
+/* =============================================== */
+/* Estilos para el Calendario                      */
+/* =============================================== */
+.calendar-section {
+    min-height: 550px;
+}
+.calendar-section #calendar {
+    flex-grow: 1;
 }
 
-.activity-time {
-    font-size: 0.9em;
-    color: #777;
+/* Ajustes visuales para FullCalendar */
+:root {
+    --fc-border-color: #e2e8f0;
+    --fc-today-bg-color: rgba(0, 82, 204, 0.05);
+    --fc-button-bg-color: #0052cc;
+    --fc-button-active-bg-color: #0041a3;
+    --fc-button-hover-bg-color: #0041a3;
+}
+.fc .fc-toolbar-title { font-size: 1.25rem; }
+.fc .fc-button { text-transform: capitalize; }
+
+/* =============================================== */
+/* ¡MODIFICADO! Estilos para Alertas y Actividades */
+/* =============================================== */
+.alerts-section, .upcoming-activities-section {
+    background-color: transparent; /* Hacemos transparente el contenedor principal */
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Espacio entre las nuevas tarjetas */
+}
+
+/* Estilo de tarjeta para cada alerta y actividad */
+.alert-item, .upcoming-activities-section li {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0; /* Reseteamos el margen que tenían antes */
+}
+
+.alert-item p, .upcoming-activities-section p { margin: 0; font-size: 0.9rem; }
+.alert-icon, .activity-bullet {
+    min-width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.alert-icon.red, .status-tag.status-delayed { background-color: #ea5555; }
+.alert-icon.orange { background-color: #ff9f40; }
+.alert-icon.blue, .activity-bullet.blue, .status-tag.status-progress { background-color: #0052cc; }
+.btn-action {
+    margin-left: auto;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.btn-action:hover { background-color: #e2e8f0; }
+.upcoming-activities-section ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.activity-time { font-size: 0.8rem; color: #64748b; margin-top: 2px; }
+
+/* =============================================== */
+/* Estilos para la Tabla de Proyectos              */
+/* =============================================== */
+.projects-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.projects-section th, .projects-section td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+}
+.projects-section th { font-weight: 600; color: #475569; }
+.projects-section tr:last-child td { border-bottom: none; }
+.profit-positive { color: #28a745; font-weight: 500; }
+.profit-negative { color: #ea5555; font-weight: 500; }
+.profit-neutral { color: #64748b; }
+.status-tag { padding: 4px 10px; border-radius: 12px; color: white; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; }
+.status-tag.status-paused { background-color: #64748b; }
+.btn-manage { padding: 6px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background-color: white; cursor: pointer; }
+
+/* =============================================== */
+/* Diseño Responsivo (Sin cambios)                 */
+/* =============================================== */
+
+@media (max-width: 1024px) {
+    .dashboard-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "summary summary"
+            "calendar calendar"
+            "alerts activities"
+            "projects projects";
+    }
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid-container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "summary"
+            "calendar"
+            "alerts"
+            "activities"
+            "projects";
+        padding: 16px;
+    }
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
 }

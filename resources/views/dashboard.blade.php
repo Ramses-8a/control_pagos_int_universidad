@@ -1,142 +1,193 @@
 <x-app-layout>
+    {{-- Librerías CSS y JS --}}
     <link rel="stylesheet" href="{{ asset('css/Dashboard.css') }}">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    {{-- ¡NUEVO! Añadimos Chart.js para el gráfico circular --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- INICIALIZACIÓN DE FULLCALENDAR (Sin cambios) ---
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'es',
                 initialView: 'dayGridMonth',
+                height: '100%',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right: 'dayGridMonth,timeGridWeek,listWeek'
                 },
                 events: [
-                    // Aquí puedes añadir tus eventos dinámicamente
-                    { title: 'Evento de prueba', start: '2024-03-10' },
-                    { title: 'Otro evento', start: '2024-03-12', end: '2024-03-14' }
+                    { title: 'Pago a Empleado Y', start: '2025-10-18', color: '#ff9f40' },
+                    { title: 'Factura #2025-087 Vence', start: '2025-10-10', color: '#ea5455' },
+                    { title: 'Kickoff Proyecto Alfa', start: '2025-10-15T11:00:00', color: '#0052cc' }
                 ]
             });
             calendar.render();
+
+            // --- ¡NUEVO! INICIALIZACIÓN DEL GRÁFICO CIRCULAR ---
+            const ctx = document.getElementById('accountsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cobrado', 'Pendiente'],
+                    datasets: [{
+                        label: 'Estado de Cuentas',
+                        data: [25, 75], // Datos ficticios: 25% cobrado, 75% pendiente
+                        backgroundColor: [
+                            '#28a745', // Verde para 'Cobrado'
+                            '#e9ecef'  // Gris claro para 'Pendiente'
+                        ],
+                        borderColor: [
+                            '#ffffff' // Borde blanco para separar
+                        ],
+                        borderWidth: 2,
+                        cutout: '75%' // Esto crea el efecto de "dona" o círculo delgado
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false // Ocultamos la leyenda por defecto
+                        },
+                        tooltip: {
+                            enabled: false // Ocultamos los tooltips al pasar el mouse
+                        }
+                    }
+                }
+            });
         });
     </script>
 
-    <div class="dashboard-container">
-        <!-- Resumen Dabrades -->
-        <div class="summary-section">
+    <div class="dashboard-grid-container">
+
+        {{-- 1. Sección de Resumen --}}
+        <div class="dashboard-section summary-section">
             <h3 class="section-title">Resumen</h3>
             <div class="summary-cards">
                 <div class="card">
-                    <p>INGRESOS COBRADOS</p>
-                    <p class="amount">$15,200.00</p>
-                    <p class="detail">w. 322,989.9 dmes pasado</p>
+                    <p class="card-title">INGRESOS COBRADOS</p>
+                    <p class="card-amount color-green">$15,200.00</p>
+                    <p class="card-detail">vs. $12,500.00 el mes pasado</p>
                 </div>
                 <div class="card">
-                    <p>GASTOS PAGADOS</p>
-                    <p class="amount">$8,300.00</p>
+                    <p class="card-title">GASTOS PAGADOS</p>
+                    <p class="card-amount color-orange">$8,300.00</p>
                 </div>
                 <div class="card">
-                    <p>GANANCIA NETA</p>
-                    <p class="amount">$6,900.00</p>
+                    <p class="card-title">GANANCIA NETA</p>
+                    <p class="card-amount color-blue">$6,900.00</p>
                 </div>
+                {{-- ¡MODIFICADO! Card para el gráfico --}}
                 <div class="card chart-card">
-                    <p>Estado de Cuentas por Cobrar</p>
-                    <div class="chart-placeholder"></div>
-                    <p class="detail">Cdenade (25% (672880)</p>
+                    <p class="card-title">Estado de Cuentas por Cobrar</p>
+                    <div class="chart-container">
+                        <canvas id="accountsChart"></canvas>
+                    </div>
+                    <p class="card-detail">
+                        <span class="legend-dot green"></span>
+                        Cobrado (25%)
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div class="main-content-grid">
-            <!-- Calendario de Vencimientos y Actividades -->
-            <div class="calendar-section">
-                <h3 class="section-title">Calendario de Vencimientos y Actividades</h3>
+        {{-- 2. Calendario de Vencimientos y Actividades --}}
+        <div class="dashboard-section calendar-section">
+            <h3 class="section-title">Calendario de Vencimientos y Actividades</h3>
+            <div id="calendar"></div>
+        </div>
 
-                    <div id="calendar"></div>
-                </div>
+        {{-- 3. Alertas y Acciones Urgentes --}}
+        <div class="dashboard-section alerts-section">
+            <h3 class="section-title">Alertas y Acciones Urgentes</h3>
+            <div class="alert-item">
+                <span class="alert-icon red"></span>
+                <p>Factura #2025-087 de "Cliente X" tiene 5 días de vencida.</p>
+                <button class="btn-action">Enviar Recordatorio</button>
             </div>
-
-            <!-- Alertas y Acciones Urgentes -->
-            <div class="alerts-section">
-                <h3 class="section-title">Alertas y Acciones Urgentes</h3>
-                <div class="alert-item">
-                    <span class="alert-icon red"></span>
-                    <p>Fedura $3025 087 de "Cliente X" tiene 5 dias de vencida.</p>
-                    <button class="btn-action">Enviar Recordatorio</button>
-                </div>
-                <div class="alert-item">
-                    <span class="alert-icon orange"></span>
-                    <p>El pago do oómma pan Empleado Y debe rebe vallzza on d dica.</p>
-                    <button class="btn-action">Procesar Pago</button>
-                </div>
-                <div class="alert-item">
-                    <span class="alert-icon blue"></span>
-                    <p>El payodo Cliolio Y time al precients ercoelido on an HPPL</p>
-                    <button class="btn-action">Ver Informe</button>
-                </div>
+            <div class="alert-item">
+                <span class="alert-icon orange"></span>
+                <p>El pago de nómina para "Empleado Y" debe realizarse en 3 días.</p>
+                <button class="btn-action">Procesar Pago</button>
             </div>
-
-            <!-- Salud de Proyectos Activos -->
-            <div class="projects-section">
-                <h3 class="section-title">Salud de Proyectos Activos</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rayado</th>
-                            <th>Cliente</th>
-                            <th>% Completada</th>
-                            <th>Rentabilidad</th>
-                            <th>Estado</th>
-                            <th>Gestión</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Dissina Web Corp</td>
-                            <td></td>
-                            <td class="profit-positive">+19%</td>
-                            <td>Retrasado</td>
-                            <td><button class="btn-manage">Retwrede</button></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>App Móvilb Corp</td>
-                            <td></td>
-                            <td></td>
-                            <td>En Curso</td>
-                            <td><button class="btn-manage">Rerronde</button></td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>App Móvil UX</td>
-                            <td>+28%</td>
-                            <td></td>
-                            <td>En Pausa</td>
-                            <td><button class="btn-manage">be Fragede</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pendientes y Actividades Próximas -->
-            <div class="upcoming-activities-section">
-                <h3 class="section-title">Pendientes y Actividades Próximas</h3>
-                <ul>
-                    <li>
-                        <span class="activity-bullet blue"></span>
-                        <p>Reunión de kiocif - Prsyeta Alfa</p>
-                        <p class="activity-time">Hoy a las 11:30 AM</p>
-                    </li>
-                    <li>
-                        <span class="activity-bullet blue"></span>
-                        <p>Rokatas prayizleca pars Novo Prosposto Masana</p>
-                        <p class="activity-time">15 da Octubre</p>
-                    </li>
-                </ul>
+            <div class="alert-item">
+                <span class="alert-icon blue"></span>
+                <p>El proyecto "Diseño Y" tiene el presupuesto excedido en un 10%.</p>
+                <button class="btn-action">Ver Informe</button>
             </div>
         </div>
+
+        {{-- 4. Pendientes y Actividades Próximas --}}
+        <div class="dashboard-section upcoming-activities-section">
+            <h3 class="section-title">Pendientes y Actividades Próximas</h3>
+            <ul>
+                <li>
+                    <span class="activity-bullet blue"></span>
+                    <div>
+                        <p>Reunión de kickoff - Proyecto Alfa</p>
+                        <p class="activity-time">Hoy a las 11:00 AM</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="activity-bullet blue"></span>
+                    <div>
+                        <p>Revisar propuesta para Nuevo Prospecto</p>
+                        <p class="activity-time">Mañana</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="activity-bullet"></span>
+                    <div>
+                        <p>Entrega de borrador a Cliente Z</p>
+                        <p class="activity-time">17 de Octubre, 2025</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        {{-- 5. Salud de Proyectos Activos --}}
+        <div class="dashboard-section projects-section">
+            <h3 class="section-title">Salud de Proyectos Activos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Cliente</th>
+                        <th>Rentabilidad</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Diseño Web Corp</td>
+                        <td>Cliente Corp</td>
+                        <td class="profit-positive">+19%</td>
+                        <td><span class="status-tag status-delayed">Retrasado</span></td>
+                        <td><button class="btn-manage">Gestionar</button></td>
+                    </tr>
+                    <tr>
+                        <td>App Móvil Corp</td>
+                        <td>Mobile Inc.</td>
+                        <td class="profit-neutral">+2%</td>
+                        <td><span class="status-tag status-progress">En Progreso</span></td>
+                        <td><button class="btn-manage">Gestionar</button></td>
+                    </tr>
+                    <tr>
+                        <td>App Móvil UX</td>
+                        <td>Creative Solutions</td>
+                        <td class="profit-negative">-25%</td>
+                        <td><span class="status-tag status-paused">En Pausa</span></td>
+                        <td><button class="btn-manage">Gestionar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </x-app-layout>

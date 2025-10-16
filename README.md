@@ -1,61 +1,185 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Control de Pagos - Aplicación Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este repositorio contiene una aplicación de control de pagos desarrollada con Laravel. A continuación, se detallan los pasos para configurar y ejecutar el proyecto en tu entorno local.
 
-## About Laravel
+## Clonar el Repositorio
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Para clonar este repositorio a tu PC, sigue estos pasos:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Abre una terminal o línea de comandos.
+2. Navega hasta la carpeta donde deseas clonar el proyecto.
+3. Ejecuta el siguiente comando:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+git clone https://github.com/tu-usuario/control_pagos.git
+```
 
-## Learning Laravel
+4. Ingresa a la carpeta del proyecto:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+cd control_pagos
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Configuración del Entorno Laravel
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Requisitos Previos
 
-## Laravel Sponsors
+- PHP 8.1 o superior
+- Composer
+- Node.js y npm
+- WSL (Windows Subsystem for Linux)
+- Docker y Docker Compose
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Instalación de Dependencias
 
-### Premium Partners
+1. Copia el archivo de entorno:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+cp .env.example .env
+```
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. Instala las dependencias de PHP con Composer:
 
-## Code of Conduct
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. Genera la clave de la aplicación:
 
-## Security Vulnerabilities
+```bash
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. Instala las dependencias de JavaScript:
 
-## License
+```bash
+npm install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Configuración de WSL y Docker
+
+### Requisitos
+
+Para ejecutar este proyecto, necesitas tener instalados:
+- WSL (Windows Subsystem for Linux)
+- Docker Desktop para Windows
+
+### Configuración de WSL
+
+Si necesitas instalar Ubuntu en WSL:
+
+```bash
+wsl --install -d Ubuntu
+```
+
+(Te pedirá que crees un usuario y contraseña. Nota: al escribir la contraseña en terminal, no se mostrará ningún carácter, pero sí se está registrando)
+
+Una vez instalado, la terminal de WSL mostrará algo como:
+```
+usuario@PC:/mnt/wsl/docker-desktop-bind-mounts/Ubuntu/65f2e78d7ed5c0ed17294566c79acd50cabf20d37f4721f73138d5694561eb9d$
+```
+
+Para verificar si ya está instalado:
+
+```bash
+wsl -l -v
+```
+
+El resultado debería ser similar a:
+```
+   NAME              STATE           VERSION 
+ * Ubuntu            Running         2 
+   docker-desktop    Running         2
+```
+
+Para acceder a la terminal de Ubuntu WSL, haz clic en el botón "+" de las terminales y selecciona la opción que dice "Ubuntu WSL".
+
+### Configuración de Laravel Sail
+
+1. Instala Laravel Sail (desde la carpeta del proyecto):
+
+```bash
+composer require laravel/sail --dev
+php artisan sail:install
+```
+
+2. Abre Docker Desktop
+
+3. Otorga permisos para Docker:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+5. Inicia los contenedores de Docker:
+
+```bash
+./vendor/bin/sail up -d
+```
+
+6. Ejecuta las migraciones para crear las tablas en la base de datos:
+
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+## Compilar Assets y Estilos de Tailwind
+
+Para compilar los assets y cargar correctamente los estilos de Tailwind CSS, ejecuta:
+
+```bash
+npm run dev
+```
+
+Este comando compilará los archivos CSS y JavaScript, incluyendo los estilos de Tailwind, y se mantendrá en ejecución para detectar cambios en tiempo real.
+
+## Acceder a la Aplicación
+
+Una vez que los contenedores estén en ejecución y hayas compilado los assets, puedes acceder a la aplicación en tu navegador:
+
+```
+http://localhost
+```
+
+Para acceder a la base de datos, utiliza:
+
+```
+http://localhost:8081
+```
+
+## Ejecutar Comandos de Laravel con Sail
+
+Para ejecutar comandos de Laravel, sustituye `php` por `./vendor/bin/sail`. Por ejemplo:
+
+```bash
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan make:controller NuevoController
+./vendor/bin/sail composer require paquete/nombre
+```
+
+## Compartir el Proyecto
+
+Para compartir el proyecto, puedes usar Git como lo harías normalmente. Cuando alguien clone el repositorio, solo necesitará ejecutar:
+
+```bash
+./vendor/bin/sail up -d
+```
+
+para levantar los contenedores y tener el entorno funcionando.
+
+## Detener los Contenedores
+
+Cuando hayas terminado de trabajar con la aplicación, puedes detener los contenedores de Docker:
+
+```bash
+./vendor/bin/sail down
+```
+
+---
+
+## Solución de Problemas Comunes
+
+- Si encuentras problemas con los permisos en WSL, asegúrate de que estás ejecutando los comandos con los permisos adecuados.
+- Si los estilos de Tailwind no se cargan correctamente, verifica que estás ejecutando `npm run dev` y que no hay errores en la consola.
+- Para problemas con Docker, verifica que Docker Desktop está en ejecución y que WSL 2 está configurado correctamente.
