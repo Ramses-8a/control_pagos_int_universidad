@@ -16,7 +16,8 @@ return new class extends Migration
             $table->text('descripcion')->nullable();
             $table->decimal('costo', 10, 2);
             $table->decimal('precio', 10, 2);
-            $table->string('estatus')->default('activo');
+            $table->unsignedBigInteger('fk_estatus_proyecto');
+            $table->foreign('fk_estatus_proyecto')->references('id')->on('estatus_proyecto');
             $table->date('fecha_inicio'); 
             $table->date('fecha_fin')->nullable(); 
             $table->timestamps(); 

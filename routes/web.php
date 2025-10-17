@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProyectoController; 
+use App\Http\Controllers\ReporteController;
 
 Route::get('/', function () {
     return view('../auth/login');
@@ -42,6 +43,10 @@ Route::middleware('auth')->group(function () {
 
     // crud para proyectos
     Route::resource('proyectos', ProyectoController::class);
+
+    // Rutas para reportes
+    Route::get('/reports', [ReporteController::class, 'index'])->name('reports.index');
+    
 });
 
 require __DIR__.'/auth.php';
