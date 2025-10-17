@@ -2,41 +2,64 @@
 <html>
 <head>
     <title>Lista de Empleados</title>
+    <link href="{{ asset('css/formulario.css') }}" rel="stylesheet">
 </head>
 <body>
-    <h1>Lista de Empleados</h1>
+    <div class="container">
+        <div class="table-container">
+            <div class="table-header">
+                <h1 class="page-title">Lista de Empleados</h1>
+                <a href="{{ route('empleados.create') }}" class="btn btn-primary"> Nuevo Empleado</a>
+            </div>
 
-    <a href="{{ route('empleados.create') }}">Nuevo Empleado</a>
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
-    @if (session('success'))
-        <div style="color: green; margin: 10px 0;">{{ session('success') }}</div>
-    @endif
-
-    @if($empleados->isEmpty())
-        <p>No hay empleados registrados.</p>
-    @else
-        <ul>
-            @foreach($empleados as $empleado)
-            <li>
-                <strong>{{ $empleado->nombre }} {{ $empleado->apellidos }}</strong>
-                <br>
-                Puesto: {{ $empleado->puesto->nombre ?? 'No asignado' }} 
-                <br>
-                Email: {{ $empleado->email }}
-                <br>
-                Teléfono: {{ $empleado->telefono ?? 'No especificado' }}
-                <br>
-               <small>
-                <a href="{{ route('empleados.editar', $empleado->id) }}">Editar</a> | 
-                <form action="{{ route('empleados.eliminar', $empleado->id) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" onclick="return confirm('¿Estás seguro de desactivar este empleado?')">Desactivar</button>
-                </form>
-                </small>
-            <hr>
-            @endforeach
-        </ul>
-    @endif
+            @if($empleados->isEmpty())
+                <div class="empty-state">
+                    <p>No hay empleados registrados.</p>
+                </div>
+            @else
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre Completo</th>  
+                                <th>Puesto</th>           
+                                <th>Email</th>            
+                                <th>Teléfono</th>        
+                                <th>Acciones</th>         
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($empleados as $empleado)
+                            <tr class="table-row">
+                                <td>
+                                    <strong>{{ $empleado->nombre }} {{ $empleado->apellidos }}</strong>
+                                </td>
+                                <td>
+                                    <span class="badge badge-info">{{ $empleado->puesto->nombre ?? 'No asignado' }}</span>
+                                </td>
+                                <td>{{ $empleado->email }}</td>
+                                <td>{{ $empleado->telefono ?? 'No especificado' }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="{{ route('empleados.editar', $empleado->id) }}" class="btn-action btn-edit">Editar</a>
+                                        <form action="{{ route('empleados.eliminar', $empleado->id) }}" method="POST" class="action-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('¿Estás seguro de desactivar este empleado?')">Desactivar</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
+    </div>
 </body>
 </html>

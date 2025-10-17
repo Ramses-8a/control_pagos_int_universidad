@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+git pull origin maingit pull origin main#!/usr/bin/env php
 <?php
 
 use Illuminate\Foundation\Application;

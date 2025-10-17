@@ -2,52 +2,57 @@
 <html>
 <head>
     <title>Editar Puesto</title>
+    <link href="{{ asset('css/formulario.css') }}" rel="stylesheet">
 </head>
 <body>
-    <h1>Editar puesto: {{ $puesto->nombre }}</h1>
+    <div class="container">
+        <h1 class="page-title">Editar puesto: {{ $puesto->nombre }}</h1>
 
-    @if ($errors->any())
-        <div>
-            <strong>Errores:</strong>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+        @if ($errors->any())
+            <div class="alert alert-error">
+                <strong>Errores:</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    @if (session('success'))
-        <div>{{ session('success') }}</div>
-    @endif
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-    <form action="{{ route('puestos.actualizar', $puesto->id) }}" method="POST">
-        @csrf
-        @method('PUT')
-        
-        <div>
-            <label for="nombre">Nombre del puesto:</label>
-            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $puesto->nombre) }}" required>
-            @error('nombre') <span style="color: red;">{{ $message }}</span> @enderror
-        </div>
+        <form action="{{ route('puestos.actualizar', $puesto->id) }}" method="POST" class="form-container">
+            @csrf
+            @method('PUT')
+            
+            <div class="form-group">
+                <label for="nombre" class="form-label">Nombre del puesto:</label>
+                <input type="text" name="nombre" id="nombre" class="form-input" value="{{ old('nombre', $puesto->nombre) }}" required>
+                @error('nombre') <span class="error-message">{{ $message }}</span> @enderror
+            </div>
 
-        <div>
-            <label for="descripcion">Descripción:</label>
-            <textarea name="descripcion" id="descripcion">{{ old('descripcion', $puesto->descripcion) }}</textarea>
-            @error('descripcion') <span style="color: red;">{{ $message }}</span> @enderror
-        </div>
+            <div class="form-group">
+                <label for="descripcion" class="form-label">Descripción:</label>
+                <textarea name="descripcion" id="descripcion" class="form-textarea">{{ old('descripcion', $puesto->descripcion) }}</textarea>
+                @error('descripcion') <span class="error-message">{{ $message }}</span> @enderror
+            </div>
 
-        <div>
-            <label for="estatus">Estatus:</label>
-            <select name="estatus" id="estatus" required>
-                <option value="activo" {{ old('estatus', $puesto->estatus) == 'activo' ? 'selected' : '' }}>Activo</option>
-                <option value="inactivo" {{ old('estatus', $puesto->estatus) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-            </select>
-            @error('estatus') <span style="color: red;">{{ $message }}</span> @enderror
-        </div>
+            <div class="form-group">
+                <label for="estatus" class="form-label">Estatus:</label>
+                <select name="estatus" id="estatus" class="form-select" required>
+                    <option value="activo" {{ old('estatus', $puesto->estatus) == 'activo' ? 'selected' : '' }}>Activo</option>
+                    <option value="inactivo" {{ old('estatus', $puesto->estatus) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                </select>
+                @error('estatus') <span class="error-message">{{ $message }}</span> @enderror
+            </div>
 
-        <button type="submit">Actualizar Puesto</button>
-        <a href="{{ route('puestos.lista') }}">Cancelar</a>
-    </form>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Actualizar Puesto</button>
+                <a href="{{ route('puestos.lista') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

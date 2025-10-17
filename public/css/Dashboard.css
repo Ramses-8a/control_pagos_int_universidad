@@ -1,0 +1,276 @@
+/* =============================================== */
+/* Contenedor Principal y Grid                     */
+/* =============================================== */
+.dashboard-grid-container {
+    padding: 24px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+        "summary summary summary"
+        "calendar calendar alerts"
+        "calendar calendar activities"
+        "projects projects projects";
+}
+
+/* Asignación de áreas a las secciones */
+.summary-section { grid-area: summary; }
+.calendar-section { grid-area: calendar; display: flex; flex-direction: column; }
+.alerts-section { grid-area: alerts; }
+.upcoming-activities-section { grid-area: activities; }
+.projects-section { grid-area: projects; }
+
+/* =============================================== */
+/* Estilos Generales de Widgets ("Secciones")      */
+/* =============================================== */
+.dashboard-section {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+}
+
+.section-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+}
+
+/* =============================================== */
+/* 1. Sección de Resumen (Cards)                   */
+/* =============================================== */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+}
+
+.card-title {
+    margin: 0 0 8px 0;
+    font-size: 0.875rem; /* 14px */
+    color: #64748b;
+    font-weight: 500;
+}
+
+.card-amount {
+    margin: 0;
+    font-size: 1.75rem; /* 28px */
+    font-weight: 700;
+}
+
+.card-detail {
+    margin: 8px 0 0 0;
+    font-size: 0.8rem; /* 12.8px */
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+}
+
+/* Colores específicos para los montos */
+.color-green { color: #28a745; }
+.color-orange { color: #fd7e14; }
+.color-blue { color: #0052cc; }
+
+/* Card del Gráfico Circular */
+.chart-card {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: auto 0;
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+.legend-dot.green { background-color: #28a745; }
+
+
+/* =============================================== */
+/* 2. Sección de Calendario                        */
+/* =============================================== */
+.calendar-section {
+    min-height: 550px;
+}
+
+.calendar-section #calendar {
+    flex-grow: 1;
+}
+
+/* Personalización de FullCalendar */
+:root {
+    --fc-border-color: #e2e8f0;
+    --fc-today-bg-color: rgba(0, 82, 204, 0.05);
+    --fc-button-bg-color: #0052cc;
+    --fc-button-active-bg-color: #0041a3;
+    --fc-button-hover-bg-color: #0041a3;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.25rem;
+}
+
+/* =============================================== */
+/* 3 y 4. Alertas y Actividades Próximas           */
+/* =============================================== */
+.alerts-section, .upcoming-activities-section {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.alert-item, .upcoming-activities-section li {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.alert-item p, .upcoming-activities-section p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.alert-icon, .activity-bullet {
+    min-width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.alert-icon.red { background-color: #ea5555; }
+.alert-icon.orange { background-color: #ff9f40; }
+.alert-icon.blue, .activity-bullet.blue { background-color: #0052cc; }
+
+.btn-action {
+    margin-left: auto;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #f1f5f9;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.btn-action:hover { background-color: #e2e8f0; }
+
+.upcoming-activities-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.activity-time {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* =============================================== */
+/* 5. Sección de Proyectos                         */
+/* =============================================== */
+.projects-section table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.projects-section th, .projects-section td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.9rem;
+}
+
+.projects-section th {
+    font-weight: 600;
+    color: #475569;
+}
+
+.projects-section tr:last-child td {
+    border-bottom: none;
+}
+
+.profit-positive { color: #28a745; font-weight: 500; }
+.profit-negative { color: #ea5555; font-weight: 500; }
+.profit-neutral { color: #64748b; }
+
+.status-tag {
+    padding: 4px 10px;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.status-tag.status-delayed { background-color: #ea5555; }
+.status-tag.status-progress { background-color: #0052cc; }
+.status-tag.status-paused { background-color: #64748b; }
+
+.btn-manage {
+    padding: 6px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+}
+.btn-manage:hover { background-color: #f8f9fa; }
+
+/* =============================================== */
+/* Diseño Responsivo                               */
+/* =============================================== */
+@media (max-width: 1024px) {
+    .dashboard-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "summary summary"
+            "calendar calendar"
+            "alerts activities"
+            "projects projects";
+    }
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid-container {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "summary"
+            "calendar"
+            "alerts"
+            "activities"
+            "projects";
+        padding: 16px;
+    }
+    .summary-cards {
+        grid-template-columns: 1fr;
+    }
+}

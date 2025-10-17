@@ -1,0 +1,102 @@
+/* =============================================== */
+/* Reseteo Básico y Estilos Globales               */
+/* =============================================== */
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+    font-family: 'Figtree', sans-serif;
+}
+
+.main-container {
+    display: flex;
+}
+
+/* =============================================== */
+/* Layout Principal (Sidebar y Contenido)          */
+/* =============================================== */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+
+/* =============================================== */
+/* Barra Lateral: Navegación Principal             */
+/* =============================================== */
+.sidebar-nav {
+    list-style-type: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    font-size: 0.95rem;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li.active a {
+    background-color: #34495e;
+}
+
+.sidebar-nav li a i {
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+}
+
+/* =============================================== */
+/* Barra Lateral: Perfil y Menú (Estilo Acordeón)  */
+/* =============================================== */
+.profile-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.profile-link:hover {
+    background-color: #34495e;
+}
+
+.profile-submenu {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    background-color: #22303f; /* Un poco más oscuro para dar profundidad */
+    overflow: hidden;
+}
+
+.profile-submenu li a {
+    padding-left: 42px; /* Aumentamos el padding para que se vea indentado */
+}
+
+.profile-submenu li a i {
+    color: #bdc3c7; /* Color más suave para los iconos del submenú */
+}
+
+/* =============================================== */
+/* Diseño Responsivo                               */
+/* =============================================== */
+@media (max-width: 768px) {
+    .sidebar { display: none; }
+    .content { margin-left: 0; width: 100%; }
+}
