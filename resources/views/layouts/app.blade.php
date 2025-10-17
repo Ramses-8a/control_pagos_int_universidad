@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -14,7 +15,7 @@
     
     <link rel="stylesheet" href="{{ asset('css/AppBlade.css') }}">
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
     <div class="main-container">
@@ -24,7 +25,9 @@
                     <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
                 <li><a href="#"><i class="fas fa-users"></i> Clientes</a></li>
-                <li><a href="#"><i class="fas fa-project-diagram"></i> Proyectos</a></li>
+                <li class="{{ request()->routeIs('proyectos.*') ? 'active' : '' }}">
+                <a href="{{ route('proyectos.index') }}"><i class="fas fa-project-diagram"></i> Proyectos</a>
+                </li>
                 <li><a href="#"><i class="fas fa-user-tie"></i> Empleados</a></li>
                 <li><a href="#"><i class="fas fa-chart-bar"></i> Reportes</a></li>
                 <li><a href="#"><i class="fas fa-book"></i> Catálogo</a></li>
