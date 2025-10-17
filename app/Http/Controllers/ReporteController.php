@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EstatusProyecto;
 use App\Models\Proyecto;
 use Illuminate\Http\Request;
 
@@ -10,6 +11,7 @@ class ReporteController extends Controller
     public function index(Request $request)
     {
         $proyectos = Proyecto::all();
+        $estatusProyectos = EstatusProyecto::all();
 
         $query = Proyecto::query();
 
@@ -42,7 +44,7 @@ class ReporteController extends Controller
             // Por ahora, asumiremos que las ganancias son 0 para el ejemplo
             $ganancias = $proyecto->precio; // Asumiendo que el precio del proyecto es la ganancia
 
-            $perdidas = $gastos - $ganancias;
+            $perdidas = $ganancias - $gastos;
 
             $reportData[] = [
                 'proyecto' => $proyecto->nombre,
@@ -63,21 +65,14 @@ class ReporteController extends Controller
             'total_perdidas' => $totalPerdidas,
         ];
 
-        // Opciones de estatus para el filtro
-        $estatusOptions = [
-            'completado' => 'Completado',
-            'en_progreso' => 'En Progreso',
-            'pendiente' => 'Pendiente',
-        ];
-
-        return view('reports.reportes', compact('finalReportData', 'proyectos', 'estatusOptions'));
+        return view('reports.reportes', compact('finalReportData', 'proyectos', 'estatusProyectos'));
     }
 
     public function generate(Request $request)
     {
         // This method is no longer needed as its logic is merged into index
         // You can remove this method or keep it as a placeholder if routes depend on it.
-        // For now, I'll leave it as a placeholder.
+        // For now, I\'ll leave it as a placeholder.
         return $this->index($request);
     }
 }

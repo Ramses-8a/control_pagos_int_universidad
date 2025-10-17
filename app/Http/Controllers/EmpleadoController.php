@@ -46,9 +46,7 @@ class EmpleadoController extends Controller
     public function lista()
     {
         $empleados = Empleado::with('puesto')
-                     ->where('estatus', 'activo')
-                     ->orderBy('nombre')
-                     ->orderBy('apellidos')
+                     ->where('estatus', '1')
                      ->get();
         return view('empleados.lista', compact('empleados'));
     }
