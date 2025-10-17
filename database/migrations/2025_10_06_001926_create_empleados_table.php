@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('apellidos'); 
-            $table->string('email')->unique();
-            $table->string('telefono')->nullable();
-            $table->enum('estatus', ['activo', 'inactivo'])->default('activo');
+            $table->string('apaterno'); 
+            $table->string('amaterno'); 
+            $table->string('correo')->unique();
+            $table->unsignedBigInteger('fk_puestos');
+            $table->unsignedBigInteger('fk_periodo_pago');
+            $table->boolean('estatus')->default(true);
             $table->timestamps();
+
+            $table->foreign('fk_puestos')->references('id')->on('puestos');
+            $table->foreign('fk_periodo_pago')->references('id')->on('periodo_pago');
         });
     }
 

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/AppBlade.css') }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="font-sans antialiased">
     <div class="main-container">
@@ -28,8 +29,10 @@
                 <li class="{{ request()->routeIs('proyectos.*') ? 'active' : '' }}">
                 <a href="{{ route('proyectos.index') }}"><i class="fas fa-project-diagram"></i> Proyectos</a>
                 </li>
+                <li class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                <a href="{{ route('reports.index') }}"><i class="fas fa-chart-bar"></i> Reportes</a>
+                </li>
                 <li><a href="#"><i class="fas fa-user-tie"></i> Empleados</a></li>
-                <li><a href="#"><i class="fas fa-chart-bar"></i> Reportes</a></li>
                 <li><a href="#"><i class="fas fa-book"></i> Catálogo</a></li>
                 <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
 
