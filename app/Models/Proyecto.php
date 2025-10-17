@@ -16,7 +16,7 @@ class Proyecto extends Model
         'fecha_fin',
         'costo',
         'precio',
-        'estatus',
+        'fk_estatus_proyecto',
     ];
 
     public function tareas()
@@ -29,8 +29,8 @@ class Proyecto extends Model
         return $this->hasMany(PagosEmpleados::class, 'fk_proyectos');
     }
 
-    // public function servicios()
-    // {
-    //     return $this->hasMany(Servicio::class, 'fk_proyectos');
-    // }
+    public function estatusProyecto()
+    {
+        return $this->belongsTo(EstatusProyecto::class, 'fk_estatus_proyecto');
+    }
 }

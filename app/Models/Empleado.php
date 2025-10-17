@@ -23,4 +23,11 @@ class Empleado extends Model
     {
         return $this->belongsTo(Puesto::class);
     }
+    /**
+     * Relación para los gastos
+     */
+    public function pagosEmpleados()
+    {
+        return $this->hasMany(pagosEmpleados::class);
+    }
 }
