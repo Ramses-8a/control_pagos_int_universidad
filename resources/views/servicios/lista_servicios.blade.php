@@ -1,62 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-app-layout>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de servicios</title>
-</head>
+            @if (session('success'))
+                <div class="mb-4 rounded-lg bg-green-100 p-4 text-sm text-green-700">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                 <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700">
+                    {{ session('error') }}
+                </div>
+            @endif
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
 
-<body>
-    <div class="container">
-        <h1 class="mb-4">Lista de servicios</h1>
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-bold">Gestión de servicios</h1>
+                        
+                        <div class="flex gap-4">
+                            <a href="{{ route('tipo_servicios.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold px-5 py-2 rounded-lg transition-colors">
+                                Administrar tipos de servicio
+                            </a>
+                            
+                            <a href="{{ route('servicios.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-lg transition-colors">
+                                Agregar un nuevo servicio
+                            </a>
+                        </div>
+                        </div>
 
-        <a href="{{ route('servicios.crear') }}" class="btn btn-primary mb-3">Crear nuevo servicio</a>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="border-b-2 border-slate-200">
+                                <tr>
+                                    <th class="py-3 px-4 font-semibold">Nombre</th>
+                                    <th class="py-3 px-4 font-semibold">Descripción</th>
+                                    <th class="py-3 px-4 font-semibold">Costo</th>
+                                    <th class="py-3 px-4 font-semibold">Tipo de servicio</th>
+                                    <th class="py-3 px-4 font-semibold">Estatus</th>
+                                    <th class="py-3 px-4 font-semibold text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($servicios as $servicio)
+                                <tr class="border-b border-slate-200 hover:bg-slate-50">
+                                    <td class="py-3 px-4">{{ $servicio->nombre }}</td>
+                                    <td class="py-3 px-4">{{ $servicio->descripcion }}</td>
+                                    <td class="py-3 px-4">${{ number_format($servicio->costo, 2) }}</td>
+                                    <td class="py-3 px-4">{{ $servicio->tipoServicio->nombre }}</td>
+                                    <td class="py-3 px-4">
+                                        <span class="px-3 py-1 text-sm rounded-full font-semibold {{ $servicio->estatus == 'activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                            {{ ucfirst($servicio->estatus) }}
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-4 text-right">
+                                        <a href="{{ route('servicios.edit', $servicio) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
+                                        <form action="{{ route('servicios.destroy', $servicio) }}" method="POST" class="inline-block ml-4" onsubmit="return confirm('¿Seguro que quieres eliminar este servicio?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-700 font-semibold">Borrar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-6 text-slate-500">No hay servicios registrados.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
 
-        @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Costo</th>
-                    <th>Tipo de Servicio</th>
-                    <th>Estatus</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($servicios as $servicio)
-                <tr>
-                    <td>{{ $servicio->nombre }}</td>
-                    <td>${{ number_format($servicio->costo, 2) }}</td>
-                    <td>{{ $servicio->tipoServicio->nombre }}</td>
-                    <td>
-                        <span class="badge {{ $servicio->estatus == 'activo' ? 'bg-success' : 'bg-secondary' }}">
-                            {{ $servicio->estatus }}
-                        </span>
-                    </td>
-                    <td>
-                        <a href="{{ route('servicios.editar', $servicio->id) }}" class="btn btn-warning btn-sm">Editar</a>
-
-                        <form action="{{ route('servicios.eliminar', $servicio->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="6" class="text-center">No hay servicios registrados.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+            </div>
     </div>
-
-</body>
-
-</html>
+</x-app-layout>

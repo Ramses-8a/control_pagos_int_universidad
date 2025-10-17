@@ -47,18 +47,6 @@ require __DIR__.'/auth.php';
 //RUTAS DE CATÁLOGO DE SERVICIOS
 Route::get('/catalogo_servicios', function () {return view('catalogo_servicios');})->middleware(['auth', 'verified'])->name('catalogo_servicios');
 
-Route::get('/tipo_servicios/lista', [TipoServicioController::class, 'index'])->name('tipo_servicios.lista');
-Route::get('/tipo_servicios/crear', [TipoServicioController::class, 'create'])->name('tipo_servicios.crear');
-Route::post('/tipo_servicios/guardar', [TipoServicioController::class, 'store'])->name('tipo_servicios.guardar');
+Route::resource('servicios', ServicioController::class);
 
-Route::get('/tipo_servicios/editar/{tipoServicio}', [TipoServicioController::class, 'edit'])->name('tipo_servicios.editar');
-Route::put('/tipo_servicios/actualizar/{tipoServicio}', [TipoServicioController::class, 'update'])->name('tipo_servicios.actualizar');
-Route::delete('/tipo_servicios/eliminar/{tipoServicio}', [TipoServicioController::class, 'destroy'])->name('tipo_servicios.eliminar');
-
-Route::get('/servicios/lista', [ServicioController::class, 'index'])->name('servicios.lista');
-Route::get('/servicios/crear', [ServicioController::class, 'create'])->name('servicios.crear');
-Route::post('/servicios/guardar', [ServicioController::class, 'store'])->name('servicios.guardar');
-
-Route::get('/servicios/editar/{servicio}', [ServicioController::class, 'edit'])->name('servicios.editar');
-Route::put('/servicios/actualizar/{servicio}', [ServicioController::class, 'update'])->name('servicios.actualizar');
-Route::delete('/servicios/eliminar/{servicio}', [ServicioController::class, 'destroy'])->name('servicios.eliminar');
+Route::resource('tipo_servicios', TipoServicioController::class);
