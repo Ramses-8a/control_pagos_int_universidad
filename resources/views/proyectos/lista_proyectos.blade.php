@@ -30,32 +30,29 @@
                             <tbody>
                                 @forelse ($proyectos as $proyecto)
                                 <tr class="border-b border-slate-200 hover:bg-slate-50">
-                                    <td class="py-3 px-4 font-medium">{{ $proyecto->nombre }}</td>
+                                    
+                                    <td class="py-3 px-4 font-medium">
+                                        <a href="{{ route('proyectos.show', $proyecto) }}" class="text-indigo-600 hover:text-indigo-800 hover:underline">
+                                            {{ $proyecto->nombre }}
+                                        </a>
+                                    </td>
+                                    
                                     <td class="py-3 px-4">${{ number_format($proyecto->precio, 2) }}</td>
                                     
                                     <td class="py-3 px-4">
                                         @php
-                                            $colorClass = 'bg-gray-100 text-gray-800'; // Color por defecto
-                                            $estatusNombre = 'Estatus Desconocido'; // Texto por defecto
+                                            $colorClass = 'bg-gray-100 text-gray-800';
+                                            $estatusNombre = 'Estatus Desconocido';
                                             
-                                            // Verificamos si la relación 'estatusProyecto' NO es nula
                                             if ($proyecto->estatusProyecto) {
                                                 $estatusNombre = $proyecto->estatusProyecto->nombre;
-                                                
                                                 switch ($proyecto->estatusProyecto->id) {
-                                                    case 1: // Activo
-                                                        $colorClass = 'bg-green-100 text-green-800';
-                                                        break;
-                                                    case 2: // Inactivo
-                                                        $colorClass = 'bg-red-100 text-red-800';
-                                                        break;
-                                                    case 3: // Completado
-                                                        $colorClass = 'bg-blue-100 text-blue-800';
-                                                        break;
+                                                    case 1: $colorClass = 'bg-green-100 text-green-800'; break;
+                                                    case 2: $colorClass = 'bg-red-100 text-red-800'; break;
+                                                    case 3: $colorClass = 'bg-blue-100 text-blue-800'; break;
                                                 }
                                             }
                                         @endphp
-
                                         <span class="px-3 py-1 text-sm rounded-full font-semibold {{ $colorClass }}">
                                             {{ $estatusNombre }}
                                         </span>
@@ -78,7 +75,6 @@
                             </tbody>
                         </table>
                     </div>
-                    
                 </div>
             </div>
         </div>
