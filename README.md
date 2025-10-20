@@ -102,6 +102,7 @@ Para acceder a la terminal de Ubuntu WSL, haz clic en el botón "+" de las termi
 ```bash
 composer require laravel/sail --dev
 php artisan sail:install
+(Seleccionar o poner mysql en la terminal)
 ```
 
 2. Abre Docker Desktop
