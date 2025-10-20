@@ -54,6 +54,9 @@ class EmpleadoController extends Controller
         $empleados = Empleado::with(['puesto', 'periodoPago'])
                      ->orderBy('nombre')
                      ->get(); 
+        $empleados = Empleado::with('puesto')
+                     ->where('estatus', '1')
+                     ->get();
         return view('empleados.lista', compact('empleados'));
     }
 
