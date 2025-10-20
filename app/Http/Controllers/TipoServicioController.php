@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class TipoServicioController extends Controller
 {
-    // ... index(), create() y edit() no cambian ...
+    // index(), create() y edit() están bien
     public function index()
     {
         $tipos = TipoServicio::orderBy('nombre')->get();
@@ -32,8 +32,7 @@ class TipoServicioController extends Controller
 
         TipoServicio::create($request->all());
 
-        // CAMBIO AQUÍ
-        return redirect()->route('tipo_servicios.lista')
+        return redirect()->route('tipo_servicios.index')
             ->with('success', 'Tipo de servicio creado correctamente.');
     }
 
@@ -55,23 +54,22 @@ class TipoServicioController extends Controller
 
         $tipoServicio->update($request->all());
 
-        // CAMBIO AQUÍ
-        return redirect()->route('tipo_servicios.lista')
+        return redirect()->route('tipo_servicios.index')
             ->with('success', 'Tipo de servicio actualizado correctamente.');
     }
 
     public function destroy(TipoServicio $tipoServicio)
     {
+        // Esta lógica de validación es excelente
         if ($tipoServicio->servicios()->count() > 0) {
-            // CAMBIO AQUÍ
-            return redirect()->route('tipo_servicios.lista')
+            
+            return redirect()->route('tipo_servicios.index')
                 ->with('error', 'No se puede eliminar porque está en uso por uno o más servicios.');
         }
 
         $tipoServicio->delete();
 
-        // CAMBIO AQUÍ
-        return redirect()->route('tipo_servicios.lista')
+        return redirect()->route('tipo_servicios.index')
             ->with('success', 'Tipo de servicio eliminado correctamente.');
     }
 }

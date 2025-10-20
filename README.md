@@ -102,6 +102,7 @@ Para acceder a la terminal de Ubuntu WSL, haz clic en el botón "+" de las termi
 ```bash
 composer require laravel/sail --dev
 php artisan sail:install
+(Seleccionar o poner mysql en la terminal)
 ```
 
 2. Abre Docker Desktop
@@ -154,6 +155,7 @@ Para ejecutar comandos de Laravel, sustituye `php` por `./vendor/bin/sail`. Por 
 
 ```bash
 ./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed (Necesario para que muestre algunos datos predeterminados)
 ./vendor/bin/sail artisan make:controller NuevoController
 ./vendor/bin/sail composer require paquete/nombre
 ```
