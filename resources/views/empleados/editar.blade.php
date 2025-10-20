@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registrar Empleado</title>
+    <title>Editar Empleado</title>
     <link href="{{ asset('css/formulario.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
-        <h1 class="page-title">Registrar nuevo empleado</h1>
+        <h1 class="page-title">Editar empleado: {{ $empleado->nombre }} {{ $empleado->apaterno }} {{ $empleado->amaterno }}</h1>
 
         @if ($errors->any())
             <div class="alert alert-error">
@@ -25,30 +25,31 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <form action="{{ route('empleados.store') }}" method="POST" class="form-container" id="createForm">
+        <form action="{{ route('empleados.actualizar', $empleado->id) }}" method="POST" class="form-container" id="editForm">
             @csrf
+            @method('PUT')
             
             <div class="form-group">
                 <label for="nombre" class="form-label">Nombre:</label>
-                <input type="text" name="nombre" id="nombre" class="form-input" value="{{ old('nombre') }}" required>
+                <input type="text" name="nombre" id="nombre" class="form-input" value="{{ old('nombre', $empleado->nombre) }}" required>
                 @error('nombre') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="apaterno" class="form-label">Apellido paterno:</label>
-                <input type="text" name="apaterno" id="apaterno" class="form-input" value="{{ old('apaterno') }}" required>
+                <input type="text" name="apaterno" id="apaterno" class="form-input" value="{{ old('apaterno', $empleado->apaterno) }}" required>
                 @error('apaterno') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="amaterno" class="form-label">Apellido materno:</label>
-                <input type="text" name="amaterno" id="amaterno" class="form-input" value="{{ old('amaterno') }}" required>
+                <input type="text" name="amaterno" id="amaterno" class="form-input" value="{{ old('amaterno', $empleado->amaterno) }}" required>
                 @error('amaterno') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
                 <label for="correo" class="form-label">Correo:</label>
-                <input type="email" name="correo" id="correo" class="form-input" value="{{ old('correo') }}" required>
+                <input type="email" name="correo" id="correo" class="form-input" value="{{ old('correo', $empleado->correo) }}" required>
                 @error('correo') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
@@ -57,7 +58,7 @@
                 <select name="fk_puestos" id="fk_puestos" class="form-select" required>
                     <option value="">Seleccione un puesto</option>
                     @foreach($puestos as $puesto)
-                        <option value="{{ $puesto->id }}" {{ old('fk_puestos') == $puesto->id ? 'selected' : '' }}>
+                        <option value="{{ $puesto->id }}" {{ old('fk_puestos', $empleado->fk_puestos) == $puesto->id ? 'selected' : '' }}>
                             {{ $puesto->nombre }}
                         </option>
                     @endforeach
@@ -70,7 +71,7 @@
                 <select name="fk_periodo_pago" id="fk_periodo_pago" class="form-select" required>
                     <option value="">Seleccione un periodo de pago</option>
                     @foreach($periodosPago as $periodo)
-                        <option value="{{ $periodo->id }}" {{ old('fk_periodo_pago') == $periodo->id ? 'selected' : '' }}>
+                        <option value="{{ $periodo->id }}" {{ old('fk_periodo_pago', $empleado->fk_periodo_pago) == $periodo->id ? 'selected' : '' }}>
                             {{ $periodo->nombre }}
                         </option>
                     @endforeach
@@ -79,18 +80,17 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Registrar Empleado</button>
+                <button type="submit" class="btn btn-primary">Actualizar Empleado</button>
                 <a href="{{ route('empleados.lista') }}" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     </div>
 
     <script>
-        
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
-                title: '¡Registro exitoso!',
+                title: '¡Actualizado!',
                 text: '{{ session('success') }}',
                 timer: 3000,
                 showConfirmButton: false
@@ -106,11 +106,10 @@
             });
         @endif
 
-       
-        document.getElementById('createForm').addEventListener('submit', function(e) {
+        document.getElementById('editForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Validar campos 
+            // Validar campos
             const nombre = document.getElementById('nombre').value.trim();
             const apaterno = document.getElementById('apaterno').value.trim();
             const amaterno = document.getElementById('amaterno').value.trim();
@@ -127,8 +126,6 @@
                 });
                 return;
             }
-
-            // Validar formato de correo
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(correo)) {
                 Swal.fire({
@@ -141,46 +138,84 @@
             }
             
             Swal.fire({
-                title: '¿Registrar empleado?',
-                text: '¿Estás seguro de crear este nuevo empleado?',
+                title: '¿Actualizar empleado?',
+                text: '¿Estás seguro de guardar los cambios?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Sí, registrar',
+                confirmButtonText: 'Sí, actualizar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
+                    
                     Swal.fire({
-                        title: 'Registrando...',
+                        title: 'Actualizando...',
                         text: 'Por favor espere',
                         allowOutsideClick: false,
                         didOpen: () => {
                             Swal.showLoading();
                         }
                     });
+                    
+                    
                     this.submit();
                 }
             });
         });
+
+        
         document.querySelector('.btn-secondary').addEventListener('click', function(e) {
             e.preventDefault();
             
-            Swal.fire({
-                title: '¿Cancelar registro?',
-                text: 'Los datos ingresados se perderán',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Sí, cancelar',
-                cancelButtonText: 'Seguir registrando'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "{{ route('empleados.lista') }}";
-                }
-            });
+            const originalData = {
+                nombre: "{{ $empleado->nombre }}",
+                apaterno: "{{ $empleado->apaterno }}",
+                amaterno: "{{ $empleado->amaterno }}",
+                correo: "{{ $empleado->correo }}",
+                fk_puestos: "{{ $empleado->fk_puestos }}",
+                fk_periodo_pago: "{{ $empleado->fk_periodo_pago }}"
+            };
+
+            const currentData = {
+                nombre: document.getElementById('nombre').value.trim(),
+                apaterno: document.getElementById('apaterno').value.trim(),
+                amaterno: document.getElementById('amaterno').value.trim(),
+                correo: document.getElementById('correo').value.trim(),
+                fk_puestos: document.getElementById('fk_puestos').value,
+                fk_periodo_pago: document.getElementById('fk_periodo_pago').value
+            };
+
+            const hasChanges = 
+                currentData.nombre !== originalData.nombre ||
+                currentData.apaterno !== originalData.apaterno ||
+                currentData.amaterno !== originalData.amaterno ||
+                currentData.correo !== originalData.correo ||
+                currentData.fk_puestos !== originalData.fk_puestos ||
+                currentData.fk_periodo_pago !== originalData.fk_periodo_pago;
+
+            if (hasChanges) {
+                Swal.fire({
+                    title: '¿Cancelar cambios?',
+                    text: 'Los cambios no guardados se perderán',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, cancelar',
+                    cancelButtonText: 'Seguir editando'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('empleados.lista') }}";
+                    }
+                });
+            } else {
+               
+                window.location.href = "{{ route('empleados.lista') }}";
+            }
         });
+
+        
         const formInputs = document.querySelectorAll('.form-input, .form-select');
         formInputs.forEach(input => {
             input.addEventListener('input', function() {

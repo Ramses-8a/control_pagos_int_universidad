@@ -44,44 +44,53 @@ class PuestoController extends Controller
     public function edit($id)
     {
         $puesto = Puesto::findOrFail($id);
-        return view('puestos.edit', compact('puesto'));
+        return view('puestos.editar', compact('puesto'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $puesto = Puesto::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $puesto = Puesto::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string|max:255|unique:puestos,nombre,' . $id,
-            'descripcion' => 'nullable|string',
-            'estatus' => 'required|in:activo,inactivo'
-        ]);
+    $validator = Validator::make($request->all(), [
+        'nombre' => 'required|string|max:255|unique:puestos,nombre,' . $id,
+        'descripcion' => 'nullable|string',
+        'estatus' => 'required|in:0,1' 
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+    }
 
-        $puesto->update($request->all());
+    $puesto->update($request->all());
 
+    return redirect()->route('puestos.lista') 
+        ->with('success', 'Puesto actualizado correctamente.');
+}
+
+   public function destroy($id)
+{
+    $puesto = Puesto::findOrFail($id);
+    
+    if ($puesto->empleados()->where('estatus', '1')->count() > 0) {
         return redirect()->route('puestos.lista') 
-            ->with('success', 'Puesto actualizado correctamente.');
+            ->with('error', 'No se puede desactivar el puesto porque tiene empleados activos asignados.');
     }
 
-    public function destroy($id)
-    {
-        $puesto = Puesto::findOrFail($id);
-        
-        // Verificar si hay empleados usando este puesto
-        if ($puesto->empleados()->count() > 0) {
-            return redirect()->route('puestos.lista') 
-                ->with('error', 'No se puede eliminar el puesto porque tiene empleados asignados.');
-        }
+    $puesto->update(['estatus' => '0']);
 
-        $puesto->delete();
+    return redirect()->route('puestos.lista') 
+        ->with('success', 'Puesto desactivado correctamente.');
+}
 
-        return redirect()->route('puestos.lista') 
-            ->with('success', 'Puesto eliminado correctamente.');
-    }
+
+public function activate($id)
+{
+    $puesto = Puesto::findOrFail($id);
+    $puesto->update(['estatus' => '1']);
+
+    return redirect()->route('puestos.lista') 
+        ->with('success', 'Puesto activado correctamente.');
+}
 }
