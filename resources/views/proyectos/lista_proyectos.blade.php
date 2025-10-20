@@ -32,13 +32,37 @@
                                 <tr class="border-b border-slate-200 hover:bg-slate-50">
                                     <td class="py-3 px-4 font-medium">{{ $proyecto->nombre }}</td>
                                     <td class="py-3 px-4">${{ number_format($proyecto->precio, 2) }}</td>
+                                    
                                     <td class="py-3 px-4">
-                                        <span class="px-3 py-1 text-sm rounded-full font-semibold {{ $proyecto->estatus == 'activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            {{ ucfirst($proyecto->estatus) }}
+                                        @php
+                                            $colorClass = 'bg-gray-100 text-gray-800'; // Color por defecto
+                                            $estatusNombre = 'Estatus Desconocido'; // Texto por defecto
+                                            
+                                            // Verificamos si la relación 'estatusProyecto' NO es nula
+                                            if ($proyecto->estatusProyecto) {
+                                                $estatusNombre = $proyecto->estatusProyecto->nombre;
+                                                
+                                                switch ($proyecto->estatusProyecto->id) {
+                                                    case 1: // Activo
+                                                        $colorClass = 'bg-green-100 text-green-800';
+                                                        break;
+                                                    case 2: // Inactivo
+                                                        $colorClass = 'bg-red-100 text-red-800';
+                                                        break;
+                                                    case 3: // Completado
+                                                        $colorClass = 'bg-blue-100 text-blue-800';
+                                                        break;
+                                                }
+                                            }
+                                        @endphp
+
+                                        <span class="px-3 py-1 text-sm rounded-full font-semibold {{ $colorClass }}">
+                                            {{ $estatusNombre }}
                                         </span>
                                     </td>
                                     <td class="py-3 px-4 text-right">
                                         <a href="{{ route('proyectos.edit', $proyecto) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
+                                        
                                         <form action="{{ route('proyectos.destroy', $proyecto) }}" method="POST" class="inline-block ml-4" onsubmit="return confirm('¿Seguro que quieres cambiar el estatus a inactivo?');">
                                             @csrf
                                             @method('DELETE')
@@ -55,10 +79,8 @@
                         </table>
                     </div>
                     
-
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
-

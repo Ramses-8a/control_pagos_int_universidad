@@ -19,6 +19,7 @@ class Proyecto extends Model
         'fk_estatus_proyecto',
     ];
 
+    
     public function tareas()
     {
         return $this->hasMany(Tarea::class, 'fk_proyectos');
@@ -31,6 +32,7 @@ class Proyecto extends Model
 
     public function estatusProyecto()
     {
+       
         return $this->belongsTo(EstatusProyecto::class, 'fk_estatus_proyecto');
     }
 }
