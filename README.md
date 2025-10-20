@@ -155,6 +155,7 @@ Para ejecutar comandos de Laravel, sustituye `php` por `./vendor/bin/sail`. Por 
 
 ```bash
 ./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan db:seed (Necesario para que muestre algunos datos predeterminados)
 ./vendor/bin/sail artisan make:controller NuevoController
 ./vendor/bin/sail composer require paquete/nombre
 ```
