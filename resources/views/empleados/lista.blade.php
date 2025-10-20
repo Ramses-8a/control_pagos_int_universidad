@@ -4,18 +4,15 @@
 <head>
     <title>Lista de Empleados</title>
     <link href="{{ asset('css/formulario.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="container">
         <div class="table-container">
             <div class="table-header">
-                <h1 class="page-title">Lista de Empleados</h1>
+                <h1 class="page-title">Lista de empleados</h1>
                 <a href="{{ route('empleados.create') }}" class="btn btn-primary"> Nuevo Empleado</a>
             </div>
-
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
 
             @if($empleados->isEmpty())
                 <div class="empty-state">
@@ -28,8 +25,8 @@
                             <tr>
                                 <th>Nombre Completo</th>  
                                 <th>Puesto</th>           
-                                <th>Email</th>            
-                                <th>Teléfono</th>        
+                                <th>Correo</th>            
+                                <th>Periodo de Pago</th>
                                 <th>Acciones</th>         
                             </tr>
                         </thead>
@@ -37,21 +34,36 @@
                             @foreach($empleados as $empleado)
                             <tr class="table-row">
                                 <td>
-                                    <strong>{{ $empleado->nombre }} {{ $empleado->apellidos }}</strong>
+                                    <strong>{{ $empleado->nombre }} {{ $empleado->apaterno }} {{ $empleado->amaterno }}</strong>
                                 </td>
                                 <td>
                                     <span class="badge badge-info">{{ $empleado->puesto->nombre ?? 'No asignado' }}</span>
                                 </td>
-                                <td>{{ $empleado->email }}</td>
-                                <td>{{ $empleado->telefono ?? 'No especificado' }}</td>
+                                <td>{{ $empleado->correo }}</td>
+                                <td>
+                                    <span class="badge badge-secondary">{{ $empleado->periodoPago->nombre ?? 'No asignado' }}</span>
+                                </td>
                                 <td>
                                     <div class="action-buttons">
                                         <a href="{{ route('empleados.editar', $empleado->id) }}" class="btn-action btn-edit">Editar</a>
-                                        <form action="{{ route('empleados.eliminar', $empleado->id) }}" method="POST" class="action-form">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('¿Estás seguro de desactivar este empleado?')">Desactivar</button>
-                                        </form>
+                                        
+                                        @if($empleado->estatus == '1')
+                                            <form action="{{ route('empleados.eliminar', $empleado->id) }}" method="POST" class="action-form" id="form-desactivar-{{ $empleado->id }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button" class="btn-action btn-delete" onclick="confirmarDesactivar({{ $empleado->id }}, '{{ $empleado->nombre }} {{ $empleado->apaterno }}')">
+                                                    Desactivar
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('empleados.activate', $empleado->id) }}" method="POST" class="action-form" id="form-activar-{{ $empleado->id }}">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="button" class="btn-action btn-success" onclick="confirmarActivar({{ $empleado->id }}, '{{ $empleado->nombre }} {{ $empleado->apaterno }}')">
+                                                    Reactivar
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
@@ -62,6 +74,86 @@
             @endif
         </div>
     </div>
+
+    <script>
+        
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}',
+                confirmButtonText: 'Entendido'
+            });
+        @endif
+
+       
+        function confirmarDesactivar(id, nombre) {
+            Swal.fire({
+                title: '¿Desactivar empleado?',
+                text: `¿Estás seguro de desactivar a "${nombre}"?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, desactivar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    Swal.fire({
+                        title: 'Desactivando...',
+                        text: 'Por favor espere',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    
+                    document.getElementById(`form-desactivar-${id}`).submit();
+                }
+            });
+        }
+
+     
+        function confirmarActivar(id, nombre) {
+            Swal.fire({
+                title: '¿Reactivar empleado?',
+                text: `¿Estás seguro de reactivar a "${nombre}"?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, reactivar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                    Swal.fire({
+                        title: 'Reactivando...',
+                        text: 'Por favor espere',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    
+                    document.getElementById(`form-activar-${id}`).submit();
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 </x-app-layout>

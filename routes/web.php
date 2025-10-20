@@ -18,6 +18,7 @@ Route::get('/empleados/lista', [EmpleadoController::class, 'lista'])->name('empl
 Route::get('/empleados/{id}/editar', [EmpleadoController::class, 'edit'])->name('empleados.editar');
 Route::put('/empleados/{id}/actualizar', [EmpleadoController::class, 'update'])->name('empleados.actualizar');
 Route::delete('/empleados/{id}/eliminar', [EmpleadoController::class, 'destroy'])->name('empleados.eliminar');
+Route::patch('/empleados/{id}/activar', [EmpleadoController::class, 'activate'])->name('empleados.activate');
 
 // Rutas para puestos
 use App\Http\Controllers\PuestoController;
@@ -30,6 +31,7 @@ Route::post('/puestos/guardar', [PuestoController::class, 'store'])->name('puest
 Route::get('/puestos/{id}/editar', [PuestoController::class, 'edit'])->name('puestos.editar');
 Route::put('/puestos/{id}/actualizar', [PuestoController::class, 'update'])->name('puestos.actualizar');
 Route::delete('/puestos/{id}/eliminar', [PuestoController::class, 'destroy'])->name('puestos.eliminar');
+Route::patch('/puestos/{id}/activar', [PuestoController::class, 'activate'])->name('puestos.activate');
 
 
 Route::get('/dashboard', function () {

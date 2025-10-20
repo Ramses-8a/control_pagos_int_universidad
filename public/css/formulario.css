@@ -369,3 +369,18 @@ body {
         text-align: center;
     }
 }
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}

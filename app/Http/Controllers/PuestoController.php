@@ -47,42 +47,50 @@ class PuestoController extends Controller
         return view('puestos.editar', compact('puesto'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $puesto = Puesto::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $puesto = Puesto::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
-            'nombre' => 'required|string|max:255|unique:puestos,nombre,' . $id,
-            'descripcion' => 'nullable|string',
-            'estatus' => 'required|in:activo,inactivo'
-        ]);
+    $validator = Validator::make($request->all(), [
+        'nombre' => 'required|string|max:255|unique:puestos,nombre,' . $id,
+        'descripcion' => 'nullable|string',
+        'estatus' => 'required|in:0,1' 
+    ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $puesto->update($request->all());
-
-        return redirect()->route('puestos.lista') 
-            ->with('success', 'Puesto actualizado correctamente.');
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
     }
 
-    public function destroy($id)
+    $puesto->update($request->all());
+
+    return redirect()->route('puestos.lista') 
+        ->with('success', 'Puesto actualizado correctamente.');
+}
+
+   public function destroy($id)
 {
     $puesto = Puesto::findOrFail($id);
     
-    
-    if ($puesto->empleados()->count() > 0) {
+    if ($puesto->empleados()->where('estatus', '1')->count() > 0) {
         return redirect()->route('puestos.lista') 
-            ->with('error', 'No se puede desactivar el puesto porque tiene empleados asignados.');
+            ->with('error', 'No se puede desactivar el puesto porque tiene empleados activos asignados.');
     }
 
-    
-    $puesto->update(['estatus' => 'inactivo']);
+    $puesto->update(['estatus' => '0']);
 
     return redirect()->route('puestos.lista') 
         ->with('success', 'Puesto desactivado correctamente.');
+}
+
+
+public function activate($id)
+{
+    $puesto = Puesto::findOrFail($id);
+    $puesto->update(['estatus' => '1']);
+
+    return redirect()->route('puestos.lista') 
+        ->with('success', 'Puesto activado correctamente.');
 }
 }

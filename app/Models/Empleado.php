@@ -11,16 +11,46 @@ class Empleado extends Model
 
     protected $fillable = [
         'nombre',
-        'apellidos',
-        'puesto_id',
-        'email', 
-        'telefono',
-        'estatus'
+        'apaterno',
+        'amaterno',
+        'correo', 
+        'fk_puestos',
+        'fk_periodo_pago',
+        'estatus' 
     ];
 
-    // Relación con puesto
     public function puesto()
     {
-        return $this->belongsTo(Puesto::class);
+        return $this->belongsTo(Puesto::class, 'fk_puestos');
+    }
+
+    public function periodoPago()
+    {
+        return $this->belongsTo(PeriodoPago::class, 'fk_periodo_pago');
+    }
+
+    
+    public function scopeActivos($query)
+    {
+        return $query->where('estatus', '1');
+    }
+
+
+    
+    public function getNombreCompletoAttribute()
+    {
+        return "{$this->nombre} {$this->apaterno} {$this->amaterno}";
+    }
+
+    
+    public function desactivar()
+    {
+        $this->update(['status' => '0']);
+    }
+
+    
+    public function activar()
+    {
+        $this->update(['status' => '1']);
     }
 }
