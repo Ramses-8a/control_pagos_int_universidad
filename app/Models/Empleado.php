@@ -53,4 +53,11 @@ class Empleado extends Model
     {
         $this->update(['status' => '1']);
     }
+    /**
+     * Relación para los gastos
+     */
+    public function pagosEmpleados()
+    {
+        return $this->hasMany(pagosEmpleados::class);
+    }
 }

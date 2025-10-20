@@ -9,8 +9,6 @@ class TipoServicio extends Model
 {
     use HasFactory;
 
-    protected $table = 'tipo_servicios';
-
     protected $fillable = [
         'nombre',
         'estatus',
@@ -19,5 +17,15 @@ class TipoServicio extends Model
     public function servicios()
     {
         return $this->hasMany(Servicio::class, 'fk_tipo_servicio');
+    }
+
+    public function setEstatusAttribute($value)
+    {
+        $this->attributes['estatus'] = ($value === 'activo') ? 1 : 0;
+    }
+
+    public function getEstatusAttribute($value)
+    {
+        return $value == 1 ? 'activo' : 'inactivo';
     }
 }
