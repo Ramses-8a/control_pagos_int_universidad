@@ -1,10 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{--Ver si es el formulario de para agg o edit--}}
-            @php
-                $isEdit = isset($proyecto);
-            @endphp
+            @php $isEdit = isset($proyecto); @endphp
             {{ __($isEdit ? 'Editar Proyecto' : 'Crear Nuevo Proyecto') }}
         </h2>
     </x-slot>
@@ -26,7 +23,6 @@
                                 <label for="nombre" class="block font-semibold mb-1">Nombre del Proyecto</label>
                                 <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $proyecto->nombre ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                             </div>
-
                             <div>
                                 <label for="costo" class="block font-semibold mb-1">Costo ($)</label>
                                 <input type="number" step="0.01" name="costo" id="costo" value="{{ old('costo', $proyecto->costo ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
@@ -39,30 +35,32 @@
 
                             <div>
                                 <label for="fecha_inicio" class="block font-semibold mb-1">Fecha de Inicio</label>
-                                <input type="date" name="fecha_inicio" id="fecha_inicio" value="{{ old('fecha_inicio', $isEdit ? ($proyecto->fecha_inicio ? \Carbon\Carbon::parse($proyecto->fecha_inicio)->format('Y-m-d') : '') : '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                                <input type="date" name="fecha_inicio" id="fecha_inicio" value="{{ old('fecha_inicio', $proyecto->fecha_inicio ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                             </div>
 
                             <div>
                                 <label for="fecha_fin" class="block font-semibold mb-1">Fecha de Fin (Opcional)</label>
-                                <input type="date" name="fecha_fin" id="fecha_fin" value="{{ old('fecha_fin', $isEdit ? ($proyecto->fecha_fin ? \Carbon\Carbon::parse($proyecto->fecha_fin)->format('Y-m-d') : '') : '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <input type="date" name="fecha_fin" id="fecha_fin" value="{{ old('fecha_fin', $proyecto->fecha_fin ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             </div>
 
+                            <div class="col-span-2">
+                                <label for="fk_estatus_proyecto" class="block font-semibold mb-1">Estatus del Proyecto</label>
+                                <select name="fk_estatus_proyecto" id="fk_estatus_proyecto" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                                    <option value="">-- Seleccione un estatus --</option>
+                                    @foreach ($estatuses as $estatus)
+                                        <option value="{{ $estatus->id }}" 
+                                            @selected(old('fk_estatus_proyecto', $proyecto->fk_estatus_proyecto ?? '') == $estatus->id)>
+                                            {{ $estatus->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
                             <div class="col-span-2">
                                 <label for="descripcion" class="block font-semibold mb-1">Descripción</label>
                                 <textarea name="descripcion" id="descripcion" rows="4" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ old('descripcion', $proyecto->descripcion ?? '') }}</textarea>
                             </div>
-                            @if($isEdit)
-                            <div>
-                                <label for="estatus" class="block font-semibold mb-1">Estatus</label>
-                                <select name="estatus" id="estatus" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                    <option value="activo" {{ $proyecto->estatus == 'activo' ? 'selected' : '' }}>Activo</option>
-                                    <option value="inactivo" {{ $proyecto->estatus == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-                                </select>
-                            </div>
-                            @endif
-                        </div>
 
-                        <div class="mt-8 flex justify-end gap-4">
+                        </div> <div class="mt-8 flex justify-end gap-4">
                             <a href="{{ route('proyectos.index') }}" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold px-5 py-2 rounded-lg transition-colors">
                                 Cancelar
                             </a>
@@ -77,4 +75,3 @@
         </div>
     </div>
 </x-app-layout>
-
