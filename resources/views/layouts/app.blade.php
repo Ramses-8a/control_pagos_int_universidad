@@ -75,10 +75,6 @@
 
                 <li><a href="#"><i class="fas fa-book"></i> Catálogo</a></li>
                 <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
-                <li><a href="#"><i class="fas fa-user-tie"></i> Empleados</a></li>
-                <li class="{{ request()->routeIs('servicios.*') ? 'active' : '' }}">
-                    <a href="{{ route('servicios.index') }}"><i class="fas fa-book"></i> Catálogo</a>
-                </li>
 
                 <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
                 <li class="profile-item" x-data="{ open: false }">
