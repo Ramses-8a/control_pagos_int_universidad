@@ -1,0 +1,241 @@
+.board-page-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.board-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 220px;
+    transition: all 0.3s ease;
+    border-top: 4px solid #3498db;
+    overflow: hidden;
+    cursor: pointer; 
+    text-decoration: none; 
+}
+
+.board-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.board-card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+}
+
+.board-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 0.5rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.board-card p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+    height: 4.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.board-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+    gap: 10px;
+}
+
+.project-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #34495e;
+    background-color: #ecf0f1;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.btn-view-board {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.2s;
+    margin-right: auto;
+    padding-left: 10px; 
+}
+
+.btn-view-board:hover {
+    color: #2980b9;
+}
+
+.btn-edit-board, .btn-delete-board {
+    background: none;
+    border: none;
+    color: #95a5a6;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    margin-left: 5px;
+}
+
+.btn-edit-board:hover {
+    color: #3498db;
+}
+
+.btn-delete-board:hover {
+    color: #e74c3c;
+}
+
+.board-card-create {
+    background: #fdfdfd;
+    border: 2px dashed #bdc3c7;
+    border-top: 4px solid #bdc3c7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #7f8c8d;
+    transition: all 0.3s ease;
+}
+
+.board-card-create:hover {
+    background: #f5f7fa;
+    border-color: #3498db;
+    color: #3498db;
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.board-card-create i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.board-card-create span {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.swal2-textarea {
+    width: auto !important;
+    margin: 1em 0 !important;
+    min-height: 80px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.swal2-popup {
+    padding: 25px !important;
+    border-radius: 10px !important;
+    max-width: 500px !important;
+    text-align: center !important; 
+}
+
+.swal2-title {
+    margin-bottom: 25px !important;
+    font-size: 1.8em !important;
+    font-weight: bold !important;
+    
+}
+
+.swal2-confirm {
+    background-color: #667EEA !important;
+    color: white !important;
+    padding: 10px 20px !important;
+    border-radius: 5px !important;
+    font-size: 1.1em !important;
+}
+
+.swal2-input.custom-swal-input,
+.swal2-textarea.custom-swal-textarea,
+.swal2-select.custom-swal-select {
+    width: 100% !important;
+    padding: 12px !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important; 
+    margin-bottom: 15px !important;
+}
+
+.swal2-textarea.custom-swal-textarea {
+    min-height: 80px !important;
+    resize: vertical !important;
+}
+
+.swal2-select.custom-swal-select {
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 1.5em 1.5em !important;
+    padding-right: 2.5rem !important;
+    margin-bottom: 20px !important;
+}
+
+.swal2-validation-message {
+    color: red !important;
+    font-size: 0.9rem !important;
+}
+
+.custom-swal-select option {
+    padding: 10px !important;
+    font-size: 1rem !important;
+    background-color: white !important;
+    color: #333 !important;
+}
+
+.custom-swal-select option:hover {
+    background-color: #f0f0f0 !important;
+}
+
+
+.swal-form-modal.swal2-popup {
+    text-align: left !important;
+}
+
+.swal-form-modal .swal2-title {
+    text-align: left !important;
+}
+
+.swal-form-modal .swal2-confirm {
+    align-self: flex-start !important;
+}
+
+.swal-form-modal .swal2-validation-message {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
