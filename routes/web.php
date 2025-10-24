@@ -20,6 +20,7 @@ Route::get('/empleados/{id}/editar', [EmpleadoController::class, 'edit'])->name(
 Route::put('/empleados/{id}/actualizar', [EmpleadoController::class, 'update'])->name('empleados.actualizar');
 Route::delete('/empleados/{id}/eliminar', [EmpleadoController::class, 'destroy'])->name('empleados.eliminar');
 Route::patch('/empleados/{id}/activar', [EmpleadoController::class, 'activate'])->name('empleados.activate');
+Route::get('/empleados/{id}/historial', [EmpleadoController::class, 'historial'])->name('empleados.historial');
 
 // Rutas para puestos
 use App\Http\Controllers\PuestoController;
@@ -37,6 +38,18 @@ Route::patch('/puestos/{id}/activar', [PuestoController::class, 'activate'])->na
 Route::get('Tareas/tablero/{tablero_id?}', [TareasController::class, 'index'])->name('tareas.index');
 Route::patch('/tareas/{tarea}/update-status', [TareasController::class, 'updateStatus'])->name('tareas.updateStatus');
 Route::post('/tareas', [TareasController::class, 'store'])->name('tareas.store');
+
+
+use App\Http\Controllers\PagosEmpleadosController;
+
+// Rutas para pagos 
+Route::get('/pagos', [PagosEmpleadosController::class, 'index'])->name('pagos.lista');
+Route::get('/pagos/crear', [PagosEmpleadosController::class, 'create'])->name('pagos.create');
+Route::post('/pagos', [PagosEmpleadosController::class, 'store'])->name('pagos.store');
+Route::get('/pagos/{id}/editar', [PagosEmpleadosController::class, 'edit'])->name('pagos.editar');
+Route::put('/pagos/{id}', [PagosEmpleadosController::class, 'update'])->name('pagos.actualizar');
+
+Route::delete('/pagos/{id}/eliminar', [PagosEmpleadosController::class, 'destroy'])->name('pagos.eliminar');
 
 
 Route::get('/dashboard', function () {

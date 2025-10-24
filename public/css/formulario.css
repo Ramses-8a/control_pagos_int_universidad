@@ -384,3 +384,195 @@ body {
 .btn-success:hover {
     background-color: #218838;
 }
+
+ .filtros-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filtros-form {
+            width: 100%;
+        }
+
+        .filtros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filtro-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filtro-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .filtro-select,
+        .filtro-input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .filtro-actions {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .btn-filter {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-filter:hover {
+            background-color: #138496;
+        }
+
+        .pagos-count {
+            font-size: 14px;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+                .btn-history {
+            background-color: #6f42c1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .btn-history:hover {
+            background-color: #5a2d91;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .action-form {
+            margin: 0;
+        }
+
+         .header-info {
+            flex: 1;
+        }
+
+        .empleado-info {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .empleado-info h3 {
+            margin: 0 0 8px 0;
+            color: #333;
+        }
+
+        .empleado-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .filtros-container {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filtros-form {
+            width: 100%;
+        }
+
+        .filtros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+
+        .filtro-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filtro-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .filtro-select,
+        .filtro-input {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .filtro-actions {
+            display: flex;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .btn-filter {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-filter:hover {
+            background-color: #138496;
+        }
+
+        .pagos-count {
+            font-size: 14px;
+            color: #6c757d;
+            margin-left: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-form {
+            margin: 0;
+        }
