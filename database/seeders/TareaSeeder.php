@@ -22,6 +22,7 @@ class TareaSeeder extends Seeder
                 'fecha_fin' => '2024-01-20',
                 'fk_estatus_tarea' => 2, // Asumiendo que el ID 2 existe en la tabla estatus_tareas (En Progreso)
                 'fk_empleados' => 1, // Asumiendo que el ID 1 existe en la tabla empleados
+                'fk_tablero_proyecto' =>1
             ],
             [
                 'fk_proyectos' => 1, // Asumiendo que el ID 1 existe en la tabla proyectos
@@ -31,6 +32,7 @@ class TareaSeeder extends Seeder
                 'fecha_fin' => '2024-02-10',
                 'fk_estatus_tarea' => 1, // Asumiendo que el ID 1 existe en la tabla estatus_tareas (Pendiente)
                 'fk_empleados' => 2, // Asumiendo que el ID 2 existe en la tabla empleados
+                'fk_tablero_proyecto' =>1
             ],
         ]);
     }

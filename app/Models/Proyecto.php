@@ -35,4 +35,9 @@ class Proyecto extends Model
        
         return $this->belongsTo(EstatusProyecto::class, 'fk_estatus_proyecto');
     }
+
+    public function tableros()
+    {
+        return $this->hasMany(TableroProyecto::class, 'fk_proyecto');
+    }
 }
