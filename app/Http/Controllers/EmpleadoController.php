@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Empleado;
 use App\Models\Puesto;
 use App\Models\PeriodoPago;
+use App\Models\PagosEmpleados;
+use App\Models\Proyecto; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -55,7 +57,6 @@ class EmpleadoController extends Controller
                      ->orderBy('nombre')
                      ->get(); 
         $empleados = Empleado::with('puesto')
-                     ->where('estatus', '1')
                      ->get();
         return view('empleados.lista', compact('empleados'));
     }
@@ -119,4 +120,27 @@ class EmpleadoController extends Controller
         return redirect()->route('empleados.lista')
             ->with('success', 'Empleado reactivado correctamente.');
     }
+
+    public function historial($id, Request $request)
+{
+    $empleado = Empleado::with(['puesto', 'periodoPago'])->findOrFail($id);
+    
+    $query = PagosEmpleados::with(['proyecto'])
+                ->where('fk_empleados', $id);
+    
+    // Filtro por fecha de pago
+    if ($request->filled('fecha_pago')) {
+        $query->whereDate('fecha_pago', $request->fecha_pago);
+    }
+    
+    // Filtro por proyecto
+    if ($request->filled('proyecto')) {
+        $query->where('fk_proyectos', $request->proyecto);
+    }
+    
+    $pagos = $query->orderBy('fecha_pago', 'desc')->get();
+    $proyectos = Proyecto::all();
+    
+    return view('empleados.historial', compact('empleado', 'pagos', 'proyectos'));
+}
 }

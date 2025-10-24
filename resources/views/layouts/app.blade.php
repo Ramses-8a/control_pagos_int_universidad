@@ -34,21 +34,20 @@
                 <li class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
                     <a href="{{ route('reports.index') }}"><i class="fas fa-chart-bar"></i> Reportes</a>
                 </li>
-                    <li class="employees-item" x-data="{ open: false }">
-    <a href="#" @click="open = !open" class="profile-link">
-        <div style="display: flex; align-items: center;">
-            <i class="fas fa-user-tie"></i>
-            <span style="margin-left: 8px;">Empleados</span>
-        </div>
-        <svg style="height: 1rem; width: 1rem; fill: currentColor; transition: transform 0.2s;"
-             x-bind:style="{ 'transform': open ? 'rotate(180deg)' : 'rotate(0deg)' }"
-             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd" />
-        </svg>
-    </a>
-
+            <li class="employees-item" x-data="{ open: false }">
+                <a href="#" @click="open = !open" class="profile-link">
+                    <div style="display: flex; align-items: center;">
+                     <i class="fas fa-user-tie"></i>
+                    <span style="margin-left: 8px;">Empleados</span>
+                    </div>
+                    <svg style="height: 1rem; width: 1rem; fill: currentColor; transition: transform 0.2s;"
+                    x-bind:style="{ 'transform': open ? 'rotate(180deg)' : 'rotate(0deg)' }"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                    </svg>
+                </a>
                         <ul x-show="open" class="profile-submenu" style="display: none;" x-transition>
                             <li>
                                 <a href="{{ route('empleados.create') }}">
@@ -72,8 +71,40 @@
                             </li>
                         </ul>
                     </li>
+                        <li class="employees-item" x-data="{ open: false }">
+                <a href="#" @click="open = !open" class="profile-link">
+                    <div style="display: flex; align-items: center;">
+                     <i class="fas fa-money-check-alt"></i>
+                    <span style="margin-left: 8px;">Nómina</span>
+                    </div>
+                    <svg style="height: 1rem; width: 1rem; fill: currentColor; transition: transform 0.2s;"
+                    x-bind:style="{ 'transform': open ? 'rotate(180deg)' : 'rotate(0deg)' }"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd" />
+                    </svg>
+                </a>
+                        <ul x-show="open" class="profile-submenu" style="display: none;" x-transition>
+                            <li>
+                                <a href="{{ route('pagos.create') }}">
+                                    <i class="fas fa-user-plus"></i> Registrar pago
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('pagos.lista') }}">
+                                    <i class="fas fa-users"></i> Lista de pagos
+                                </a>
+                            </li>
+                         
+                           
+                          
+                        </ul>
+                    </li>
 
+                 
                 <li><a href="#"><i class="fas fa-book"></i> Catálogo</a></li>
+
                 <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
 
                 <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
