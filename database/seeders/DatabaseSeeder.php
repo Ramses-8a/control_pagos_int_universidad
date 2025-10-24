@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             EstatusProyectoSeeder::class,
             EmpleadoSeeder::class,
             ProyectoSeeder::class,
+            TableroProyectoSeeder::class,
             TareaSeeder::class,
             PagosEmpleadosSeeder::class,
             TipoServicioSeeder::class,

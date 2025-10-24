@@ -1,0 +1,221 @@
+/* --- CONTENEDOR PRINCIPAL --- */
+.kanban-board-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif; /* Usa una fuente formal y legible */
+    background-color: #f4f7fa; /* Un fondo claro que combine con tu layout */
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px); /* Ajusta esto según la altura de tu header */
+}
+
+/* --- ENCABEZADO (Título y Botón) --- */
+.kanban-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.kanban-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #1a202c; /* Color oscuro (Tailwind gray-800) */
+}
+
+.kanban-create-task-btn {
+    background-color: #4f46e5; /* Color índigo (Tailwind) */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.kanban-create-task-btn:hover {
+    background-color: #4338ca; /* Índigo más oscuro */
+}
+
+/* --- TABLERO (Contenedor de columnas) --- */
+.kanban-board {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Permite scroll horizontal si no caben */
+    flex-grow: 1; /* Ocupa el espacio restante */
+    padding-bottom: 10px; /* Espacio para la barra de scroll */
+}
+
+/* --- COLUMNAS (Estatus) --- */
+.kanban-column {
+    flex: 0 0 300px; /* Ancho fijo para cada columna */
+    background-color: #eef2f7; /* Gris claro (Tailwind gray-100) */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    /* max-height: 100%;  <-- Eliminado para que crezca */
+}
+
+.kanban-column-header {
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 4px solid #ccc; /* Color por defecto */
+    border-bottom: 1px solid #d1d5db; /* Gris (Tailwind gray-300) */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.kanban-column-title {
+    font-weight: 600;
+    color: #111827; /* Gris (Tailwind gray-900) */
+    font-size: 1rem;
+}
+
+.kanban-column-count {
+    background-color: #d1d5db; /* Gris (Tailwind gray-300) */
+    color: #111827;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 12px;
+}
+
+/* --- LISTA DE TAREAS --- */
+.kanban-task-list {
+    padding: 10px;
+    flex-grow: 1;
+    min-height: 150px; /* Para poder soltar tareas en columnas vacías */
+    /* overflow-y: auto; <-- Eliminado para que crezca */
+}
+
+/* --- TARJETAS DE TAREA --- */
+.kanban-task {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb; /* Gris (Tailwind gray-200) */
+    cursor: grab;
+    transition: box-shadow 0.2s ease;
+}
+
+.kanban-task:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.kanban-task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.kanban-task-title {
+    font-weight: 500;
+    color: #1a202c;
+    font-size: 0.95rem;
+}
+
+.kanban-task-description {
+    font-size: 0.85rem;
+    color: #4a5568; /* Gris (Tailwind gray-600) */
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.kanban-task-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kanban-task-assignee {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #673ab7; /* Color por defecto (Deep Purple) */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 2px solid white;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+.kanban-task-id {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #718096; /* Gris (Tailwind gray-500) */
+}
+
+/* --- ESTILOS DRAG & DROP --- */
+.kanban-task-ghost {
+    opacity: 0.4;
+    background: #c7d2fe; /* Índigo claro */
+    border: 2px dashed #4f46e5;
+}
+
+.kanban-task:grabbing {
+    cursor: grabbing;
+}
+
+/* --- ESTILOS PARA MODAL DE SWEETALERT --- */
+.swal-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.swal-form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.swal-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151; /* Gris (Tailwind gray-700) */
+}
+
+/* --- Fila de formulario para fechas --- */
+.swal-form-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 15px; /* Separación entre los grupos */
+}
+
+/* Cada grupo en la fila debe ocupar el espacio disponible */
+.swal-form-row .swal-form-group {
+    flex: 1; /* Ocupa el espacio equitativamente */
+}
+
+
+/* Corrección para alinear inputs de SweetAlert a la izquierda.
+*/
+.swal2-input, .swal2-textarea, .swal2-select {
+    width: 100% !important;
+    box-sizing: border-box; /* Importante */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important; 
+}
+
+/* Ajuste fino para el textarea que tiene un margin-bottom por defecto */
+.swal2-textarea {
+    margin-bottom: 0 !important;
+}
+

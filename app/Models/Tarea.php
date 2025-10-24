@@ -17,6 +17,7 @@ class Tarea extends Model
         'fecha_fin',
         'fk_estatus_tarea',
         'fk_empleados',
+        'fk_tablero_proyecto',
     ];
 
     public function proyecto()
@@ -32,5 +33,10 @@ class Tarea extends Model
     public function empleado()
     {
         return $this->belongsTo(Empleado::class, 'fk_empleados');
+    }
+
+    public function tableroProyecto()
+    {
+        return $this->belongsTo(TableroProyecto::class, 'fk_tablero_proyecto');
     }
 }

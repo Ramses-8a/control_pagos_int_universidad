@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('fecha_fin');
             $table->unsignedBigInteger('fk_estatus_tarea');
             $table->unsignedBigInteger('fk_empleados');
+            $table->foreignId('fk_tablero_proyecto')->nullable()->constrained('tablero_proyecto');
             $table->timestamps();
             
             $table->foreign('fk_proyectos')->references('id')->on('proyectos');

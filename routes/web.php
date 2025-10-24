@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProyectoController; 
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\TareasController;
 
 Route::get('/', function () {
     return view('../auth/login');
@@ -33,6 +34,10 @@ Route::put('/puestos/{id}/actualizar', [PuestoController::class, 'update'])->nam
 Route::delete('/puestos/{id}/eliminar', [PuestoController::class, 'destroy'])->name('puestos.eliminar');
 Route::patch('/puestos/{id}/activar', [PuestoController::class, 'activate'])->name('puestos.activate');
 
+Route::get('Tareas/tablero/{tablero_id?}', [TareasController::class, 'index'])->name('tareas.index');
+Route::patch('/tareas/{tarea}/update-status', [TareasController::class, 'updateStatus'])->name('tareas.updateStatus');
+Route::post('/tareas', [TareasController::class, 'store'])->name('tareas.store');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -48,7 +53,14 @@ Route::middleware('auth')->group(function () {
 
     // Rutas para reportes
     Route::get('/reports', [ReporteController::class, 'index'])->name('reports.index');
-    
+
+    // Rutas para TableroProyecto
+    Route::get('/tableros', [App\Http\Controllers\TableroProyectoController::class, 'index'])->name('tableros.index');
+    Route::post('/tableros', [App\Http\Controllers\TableroProyectoController::class, 'store'])->name('tableros.store');
+    Route::get('/tableros/{tablero}/edit', [App\Http\Controllers\TableroProyectoController::class, 'edit'])->name('tableros.edit');
+    Route::put('/tableros/{tablero}', [App\Http\Controllers\TableroProyectoController::class, 'update'])->name('tableros.update');
+    Route::put('/tableros/{tablero}/status', [App\Http\Controllers\TableroProyectoController::class, 'updateStatus'])->name('tableros.updateStatus');
+    Route::delete('/tableros/{tablero}', [App\Http\Controllers\TableroProyectoController::class, 'destroy'])->name('tableros.destroy');
 });
 
 require __DIR__.'/auth.php';

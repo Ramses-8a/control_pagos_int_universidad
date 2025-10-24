@@ -19,7 +19,7 @@ class ProyectoSeeder extends Seeder
                 'descripcion' => 'Creación de una aplicación móvil para gestión de tareas.',
                 'costo' => 15000.00,
                 'precio' => 20000.00,
-                'fk_estatus_proyecto' => 1, // Asumiendo que el ID 1 existe en la tabla estatus_proyecto (Activo)
+                'estatus_proyecto_id' => 1, // Asumiendo que el ID 1 existe en la tabla estatus_proyecto (Activo)
                 'fecha_inicio' => '2024-01-15',
                 'fecha_fin' => '2024-06-30',
             ],
@@ -28,7 +28,7 @@ class ProyectoSeeder extends Seeder
                 'descripcion' => 'Rediseño del sitio web de la empresa X.',
                 'costo' => 8000.00,
                 'precio' => 12000.00,
-                'fk_estatus_proyecto' => 3, // Asumiendo que el ID 3 existe en la tabla estatus_proyecto (Completado)
+                'estatus_proyecto_id' => 3, // Asumiendo que el ID 3 existe en la tabla estatus_proyecto (Completado)
                 'fecha_inicio' => '2024-09-01',
                 'fecha_fin' => '2025-02-28',
             ],
@@ -37,7 +37,7 @@ class ProyectoSeeder extends Seeder
                 'descripcion' => 'Rediseño del sitio web de la empresa X.',
                 'costo' => 8000.00,
                 'precio' => 12000.00,
-                'fk_estatus_proyecto' => 3, // Asumiendo que el ID 3 existe en la tabla estatus_proyecto (Completado)
+                'estatus_proyecto_id' => 3, // Asumiendo que el ID 3 existe en la tabla estatus_proyecto (Completado)
                 'fecha_inicio' => '2025-08-01',
                 'fecha_fin' => '2026-01-31',
             ],
@@ -46,7 +46,7 @@ class ProyectoSeeder extends Seeder
                 'descripcion' => 'Rediseño del sitio web de la empresa X.',
                 'costo' => 8000.00,
                 'precio' => 12000.00,
-                'fk_estatus_proyecto' => 3, // Asumiendo que el ID 3 existe en la tabla estatus_proyecto (Completado)
+                'estatus_proyecto_id' => 3, // Asumiendo que el ID 3 existe en la tabla estatus_proyecto (Completado)
                 'fecha_inicio' => '2025-09-01',
                 'fecha_fin' => '2026-05-31',
             ],
