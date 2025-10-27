@@ -9,23 +9,14 @@ class Servicio extends Model
 {
     use HasFactory;
 
+    protected $table = 'servicios';
+
     protected $fillable = [
         'nombre',
-        'descripcion',
         'costo',
         'estatus',
-        'fk_tipo_servicio', 
+        'fk_tipo_servicio',
     ];
-
-    public function setEstatusAttribute($value)
-    {
-        $this->attributes['estatus'] = ($value === 'activo') ? 1 : 0;
-    }
-
-    public function getEstatusAttribute($value)
-    {
-        return $value == 1 ? 'activo' : 'inactivo';
-    }
 
     public function tipoServicio()
     {

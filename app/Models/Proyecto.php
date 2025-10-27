@@ -32,8 +32,7 @@ class Proyecto extends Model
 
     public function estatusProyecto()
     {
-       
-        return $this->belongsTo(EstatusProyecto::class, 'fk_estatus_proyecto');
+        return $this->belongsTo(EstatusProyecto::class, 'estatus_proyecto_id');
     }
 
     public function tableros()

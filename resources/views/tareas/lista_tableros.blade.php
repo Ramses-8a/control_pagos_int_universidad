@@ -167,18 +167,20 @@
                 
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`/tableros/${tableroId}`, {
-                        method: 'DELETE',
+                    fetch(`/tableros/${tableroId}/status`, {
+                        method: 'PUT',
                         headers: {
+                            'Content-Type': 'application/json',
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
+                        },
+                        body: JSON.stringify({ estado: 0, _method: 'PUT' })
                     })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
                             Swal.fire(
-                                '¡Eliminado!',
-                                'El tablero ha sido eliminado correctamente.',
+                                '¡Actualizado!',
+                                'El estado del tablero ha sido actualizado.',
                                 'success'
                             ).then(() => location.reload());
                         } else {

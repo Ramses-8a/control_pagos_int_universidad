@@ -11,7 +11,7 @@ class TableroProyectoController extends Controller
     public function index()
     {
         $proyectos = Proyecto::all();
-        $tableros = TableroProyecto::with('proyecto')->where('estatus', true)->get();
+        $tableros = TableroProyecto::with('proyecto')->get();
         return view('tareas.lista_tableros', compact('proyectos', 'tableros'));
     }
 
@@ -27,7 +27,7 @@ class TableroProyectoController extends Controller
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'fk_proyecto' => $request->proyecto_id,
-            'estatus' => true,
+            'estatus' => 'activo', // O el estatus por defecto que desees
         ]);
 
         return response()->json(['success' => true, 'message' => 'Tablero creado correctamente.']);
@@ -67,7 +67,7 @@ class TableroProyectoController extends Controller
             'estado' => 'required|in:0,1',
         ]);
 
-        $tablero->estatus = (bool)$request->estado;
+        $tablero->estatus = $request->estado == 1 ? 'activo' : 'inactivo';
         $tablero->save();
 
         return response()->json(['success' => true, 'message' => 'Estado del tablero actualizado correctamente.']);

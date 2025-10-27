@@ -67,7 +67,6 @@
         const estatuses = @json($estatuses);
         // (Asegúrate de que tu controlador pasa $proyecto_id a esta vista)
         const CURRENT_PROYECTO_ID = @json($proyecto_id ?? null); 
-        const CURRENT_TABLERO_ID = @json($tablero_id ?? null);
 
         // --- 2. FUNCIONALIDAD DRAG & DROP ---
         const taskLists = document.querySelectorAll('.kanban-task-list');
@@ -222,8 +221,7 @@
                         fecha_fin: fechaFin,
                         fk_empleados: empleadoId,
                         fk_estatus_tarea: estatusId,
-                        fk_proyectos_id: CURRENT_PROYECTO_ID,
-                    fk_tablero_proyecto: CURRENT_TABLERO_ID, 
+                        fk_proyectos_id: CURRENT_PROYECTO_ID 
                     };
                 }
             }).then((result) => {
@@ -283,98 +281,11 @@
                 </div>
             `;
             
-            taskElement.addEventListener('click', () => showTaskDetailsModal(tarea));
-
             columnList.appendChild(taskElement);
             updateColumnCounts();
         }
 
-        // --- 6. FUNCIÓN PARA MOSTRAR DETALLES DE LA TAREA EN UN MODAL ---
-        function showTaskDetailsModal(tarea) {
-            const empleadoInfo = tarea.empleado ? 
-                `<div class="detail-item"><label>Asignado a:</label><span>${tarea.empleado.nombre_completo} (${tarea.empleado.iniciales})</span></div>` : 
-                `<div class="detail-item"><label>Asignado a:</label><span>No asignado</span></div>`;
-            
-            const estatusInfo = tarea.estatus_tarea ? 
-                `<div class="detail-item"><label>Estatus:</label><span style="color: ${tarea.estatus_tarea.color || '#000'};">${tarea.estatus_tarea.nombre}</span></div>` : 
-                `<div class="detail-item"><label>Estatus:</label><span>Desconocido</span></div>`;
-
-            Swal.fire({
-                title: `Detalles de la Tarea #${tarea.id}`,
-                html: `
-                    <div class="task-detail-modal">
-                        <div class="detail-item"><label>Título:</label><span>${tarea.titulo}</span></div>
-                        <div class="detail-item"><label>Notas:</label><span>${tarea.notas || 'Sin notas'}</span></div>
-                        <div class="detail-item"><label>Fecha de Inicio:</label><span>${new Date(tarea.fecha_inicio).toLocaleDateString('es-ES')}</span></div>
-                        <div class="detail-item"><label>Fecha Límite:</label><span>${new Date(tarea.fecha_fin).toLocaleDateString('es-ES')}</span></div>
-                        ${empleadoInfo}
-                        ${estatusInfo}
-                    </div>
-                `,
-                showCloseButton: true,
-                showConfirmButton: false,
-                customClass: {
-                    container: 'swal2-container-custom',
-                    popup: 'swal2-popup-custom'
-                }
-            });
-        }
-
-        // Añadir event listeners a las tareas existentes al cargar la página
-        document.querySelectorAll('.kanban-task').forEach(taskElement => {
-            const taskId = taskElement.dataset.taskId;
-            // Necesitamos obtener el objeto tarea completo para pasarlo al modal
-            // Esto requerirá una llamada AJAX o tener todas las tareas disponibles en JS
-            // Por ahora, asumiremos que podemos reconstruir la tarea o que ya está disponible.
-            // Para simplificar, si la tarea ya está en el DOM, podemos extraer la info.
-            // Sin embargo, la forma más robusta es tener un array de tareas en JS.
-            // Por ahora, haremos una simulación o asumiremos que la tarea se puede obtener.
-            
-            // Para las tareas existentes, necesitamos una forma de obtener el objeto completo.
-            // La forma más sencilla es que el backend pase todas las tareas con sus relaciones cargadas.
-            // Si no, tendríamos que hacer una llamada AJAX por cada tarea al hacer clic.
-            // Asumiremos que $tareas ya tiene las relaciones cargadas y podemos mapearlas a JS.
-            
-            // Para evitar duplicar la lógica, vamos a refactorizar un poco.
-            // Primero, vamos a crear un mapa de tareas por ID.
-            const allTasks = @json($tareas->load('empleado', 'estatusTarea'));
-            const tasksMap = new Map(allTasks.map(task => [task.id.toString(), task]));
-
-            taskElement.addEventListener('click', () => {
-                const task = tasksMap.get(taskId);
-                if (task) {
-                    showTaskDetailsModal(task);
-                } else {
-                    console.error('Tarea no encontrada en el mapa:', taskId);
-                }
-            });
-        });
-
     });
 </script>
-
-<style>
-    /* Estilos para el modal de detalles de tarea */
-    .task-detail-modal {
-        text-align: left;
-        padding: 10px;
-    }
-    .task-detail-modal .detail-item {
-        margin-bottom: 10px;
-    }
-    .task-detail-modal .detail-item label {
-        font-weight: bold;
-        margin-right: 5px;
-        color: #333;
-        display: inline-block;
-        min-width: 100px; /* Alineación */
-    }
-    .task-detail-modal .detail-item span {
-        color: #555;
-    }
-    .swal2-popup-custom {
-        width: 600px !important; /* Ajusta el ancho del modal */
-    }
-</style>
 
 </x-app-layout>
