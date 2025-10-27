@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProyectoController; 
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TareasController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('../auth/login');
@@ -52,9 +53,7 @@ Route::put('/pagos/{id}', [PagosEmpleadosController::class, 'update'])->name('pa
 Route::delete('/pagos/{id}/eliminar', [PagosEmpleadosController::class, 'destroy'])->name('pagos.eliminar');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
