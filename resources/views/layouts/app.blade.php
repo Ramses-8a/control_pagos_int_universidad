@@ -91,7 +91,9 @@
                     </ul>
                 </li>
 
-                <li><a href="#"><i class="fas fa-book"></i> <span>Catálogo</span></a></li>
+                <li class="{{ request()->routeIs('servicios.*') ? 'active' : '' }}">
+                    <a href="{{ route('servicios.index') }}"><i class="fas fa-project-diagram"></i> <span>Catálogos</span></a>
+                </li>
                 <li><a href="#"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
                 
                 {{-- Admin Dropdown --}}
