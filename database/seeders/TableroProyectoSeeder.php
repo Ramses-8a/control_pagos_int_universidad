@@ -14,9 +14,9 @@ class TableroProyectoSeeder extends Seeder
     public function run(): void
     {
         DB::table('tablero_proyecto')->insert([
-            ['nombre' => 'Tablero de Diseño', 'descripcion' => 'Tareas relacionadas con el diseño UI/UX', 'fk_proyecto' => 1, 'estatus' => 'activo'],
-            ['nombre' => 'Tablero de Desarrollo', 'descripcion' => 'Tareas de implementación de funcionalidades', 'fk_proyecto' => 2, 'estatus' => 'activo'],
-            ['nombre' => 'Tablero de Pruebas', 'descripcion' => 'Tareas de testing y control de calidad', 'fk_proyecto' => 3, 'estatus' => 'inactivo'],
+            ['nombre' => 'Tablero de Diseño', 'descripcion' => 'Tareas relacionadas con el diseño UI/UX', 'fk_proyecto' => 1, 'estatus' => true],
+            ['nombre' => 'Tablero de Desarrollo', 'descripcion' => 'Tareas de implementación de funcionalidades', 'fk_proyecto' => 2, 'estatus' => true],
+            ['nombre' => 'Tablero de Pruebas', 'descripcion' => 'Tareas de testing y control de calidad', 'fk_proyecto' => 3, 'estatus' => true],
         ]);
     }
 }
