@@ -13,7 +13,7 @@ class EstatusProyectoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('periodo_pago')->insert([
+        DB::table('estatus_proyecto')->insert([
             ['nombre' => 'Activo', 'estatus' => true],
             ['nombre' => 'Inactivo', 'estatus' => true],
             ['nombre' => 'Completado', 'estatus' => true],
