@@ -4,6 +4,7 @@
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         // Obtenemos los datos del calendario desde el controlador de Laravel
@@ -42,7 +43,53 @@
                 headerToolbar: headerToolbarSetting,
                 height: 'auto', // Dejamos que el calendario decida su altura
                 
-                events: calendarEvents 
+                events: calendarEvents,
+                eventClick: function(info) {
+                    const event = info.event;
+                    const type = event.extendedProps.type;
+                    const description = event.extendedProps.description;
+                    const link = event.extendedProps.link;
+
+                    const date = new Date(event.start);
+                    const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+                    const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
+
+                    let title = '';
+                    let htmlContent = '';
+
+                    if (type === 'proyecto') {
+                        title = 'Detalles del Proyecto';
+                        htmlContent = `
+                            <p><strong>Título:</strong> ${event.title}</p>
+                            <p><strong>Descripción:</strong> ${description}</p>
+                            <p><strong>Fecha:</strong> ${formattedDate}</p>
+                            <p><a href="${link}" class="btn btn-primary">Ver Proyecto</a></p>
+                        `;
+                    } else if (type === 'pago') {
+                        title = 'Detalles del Pago';
+                        htmlContent = `
+                            <p><strong>Título:</strong> ${event.title}</p>
+                            <p><strong>Descripción:</strong> ${description}</p>
+                            <p><strong>Fecha de Pago:</strong> ${formattedDate}</p>
+                            ${link ? `<p><a href="${link}" class="btn btn-primary">Ver Detalles del Pago</a></p>` : ''}
+                        `;
+                    } else if (type === 'tarea') {
+                        title = 'Detalles de la Tarea';
+                        htmlContent = `
+                            <p><strong>Título:</strong> ${event.title}</p>
+                            <p><strong>Descripción:</strong> ${description}</p>
+                            <p><strong>Fecha de Vencimiento:</strong> ${formattedDate}</p>
+                            <p><a href="${link}" class="btn btn-primary">Ver Tarea</a></p>
+                        `;
+                    }
+
+                    Swal.fire({
+                        title: title,
+                        html: htmlContent,
+                        icon: 'info',
+                        confirmButtonText: 'Cerrar'
+                    });
+                }
             });
             calendar.render();
 
@@ -117,46 +164,78 @@
             <div id="calendar"></div>
         </div>
 
-        {{-- 3. Alertas y Acciones Urgentes (Dinámico) --}}
-        <div class="dashboard-section alerts-section">
-            <h3 class="section-title">Alertas y Acciones Urgentes</h3>
-            
-            @forelse ($tareasUrgentes as $tarea)
-                <div class="alert-item">
-                    <span class="alert-icon orange"></span>
-                    <p>Tarea por vencer: <strong>{{ $tarea->titulo }}</strong> (Vence {{ $tarea->fecha_fin->diffForHumans() }}).</p>
-                    <a href="{{ route('tareas.index') }}" class="btn-action">Ver Tarea</a>
-                </div>
-            @empty
-                <div class="alert-item">
-                    <span class="alert-icon" style="background-color: #28a745;"></span>
-                    <p>No tienes alertas urgentes. ¡Buen trabajo!</p>
-                </div>
-            @endforelse
+        {{-- 3 & 4. Alertas y Actividades Próximas Combinadas --}}
+        <div class="dashboard-section alerts-and-upcoming-container">
+            <div class="alerts-section">
+                <h3 class="section-title">Alertas de Tareas Urgentes</h3>
+                
+                @forelse ($tareasUrgentes as $tarea)
+                    <div class="alert-item">
+                        <span class="alert-icon orange"></span>
+                        <p>Tarea por vencer: <strong>{{ $tarea->titulo }}</strong> (Vence en {{ Carbon\Carbon::parse($tarea->fecha_fin)->locale('es')->diffForHumans() }}).</p>
+                        <a href="{{ route('tareas.index') }}" class="btn-action">Ver Tarea</a>
+                    </div>
+                @empty
+                    <div class="alert-item">
+                        <span class="alert-icon" style="background-color: #28a745;"></span>
+                        <p>No tienes alertas de tareas urgentes. ¡Buen trabajo!</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <div class="upcoming-activities-section">
+                <h3 class="section-title">Actividades Próximas</h3>
+                @forelse ($actividadesProximas as $actividad)
+                    <div class="alert-item activity-item" data-type="{{ $actividad['tipo'] }}" data-description="{{ $actividad['descripcion'] }}" data-fecha="{{ Carbon\Carbon::parse($actividad['fecha'])->format('d/m/Y H:i') }}">
+                        <span class="alert-icon {{ $actividad['tipo'] == 'tarea' ? 'blue' : 'orange' }}"></span>
+                        <p>{{ $actividad['descripcion'] }} (Vence en {{ Carbon\Carbon::parse($actividad['fecha'])->locale('es')->diffForHumans() }}).</p>
+                    </div>
+                @empty
+                    <div class="alert-item">
+                        <span class="alert-icon" style="background-color: #28a745;"></span>
+                        <p>No hay actividades próximas.</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
 
-        {{-- 4. Pendientes y Actividades Próximas (Dinámico) --}}
-        <div class="dashboard-section upcoming-activities-section">
-            <h3 class="section-title">Pendientes y Actividades Próximas</h3>
-            <ul>
-                @forelse ($proximasActividades as $tarea)
-                    <li>
-                        <span class="activity-bullet blue"></span>
-                        <div>
-                            <p>{{ $tarea->titulo }}</p>
-                            <p class="activity-time">{{ $tarea->fecha_fin->format('d \d\e F, Y') }}</p>
-                        </div>
-                    </li>
-                @empty
-                     <li>
-                        <span class="activity-bullet"></span>
-                        <div>
-                            <p>No hay más actividades programadas.</p>
-                        </div>
-                    </li>
-                @endforelse
-            </ul>
-        </div>
+        <script>
+            document.querySelectorAll('.activity-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const description = this.dataset.description;
+                    const fecha = this.dataset.fecha;
+                    const link = this.dataset.link;
+
+                    let title = '';
+                    let htmlContent = '';
+
+                    if (type === 'tarea') {
+                        title = 'Detalles de la Tarea';
+                        htmlContent = `
+                            <p><strong>Descripción:</strong> ${description}</p>
+                            <p><strong>Fecha de Vencimiento:</strong> ${fecha}</p>
+                            <p><a href="${link}" class="btn btn-primary">Ver Tarea Completa</a></p>
+                        `;
+                    } else if (type === 'pago') {
+                        title = 'Detalles del Pago';
+                        htmlContent = `
+                            <p><strong>Descripción:</strong> ${description}</p>
+                            <p><strong>Fecha de Pago:</strong> ${fecha}</p>
+                            <p><a href="${link}" class="btn btn-primary">Ver Detalles del Pago</a></p>
+                        `;
+                    }
+
+                    Swal.fire({
+                        title: title,
+                        html: htmlContent,
+                        icon: 'info',
+                        confirmButtonText: 'Cerrar'
+                    });
+                });
+            });
+        </script>
+
         
         {{-- 5. Salud de Proyectos Activos (Dinámico) --}}
         <div class="dashboard-section projects-section">

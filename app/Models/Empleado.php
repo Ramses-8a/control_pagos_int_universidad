@@ -65,6 +65,6 @@ class Empleado extends Model
      */
     public function pagosEmpleados()
     {
-        return $this->hasMany(pagosEmpleados::class);
+        return $this->hasMany(PagosEmpleados::class, 'fk_empleados');
     }
 }
