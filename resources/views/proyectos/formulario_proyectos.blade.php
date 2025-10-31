@@ -27,34 +27,32 @@
                                 <label for="costo" class="block font-semibold mb-1">Costo ($)</label>
                                 <input type="number" step="0.01" name="costo" id="costo" value="{{ old('costo', $proyecto->costo ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                             </div>
-
                             <div>
                                 <label for="precio" class="block font-semibold mb-1">Precio de Venta ($)</label>
                                 <input type="number" step="0.01" name="precio" id="precio" value="{{ old('precio', $proyecto->precio ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                             </div>
-
                             <div>
                                 <label for="fecha_inicio" class="block font-semibold mb-1">Fecha de Inicio</label>
                                 <input type="date" name="fecha_inicio" id="fecha_inicio" value="{{ old('fecha_inicio', $proyecto->fecha_inicio ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                             </div>
-
                             <div>
                                 <label for="fecha_fin" class="block font-semibold mb-1">Fecha de Fin (Opcional)</label>
                                 <input type="date" name="fecha_fin" id="fecha_fin" value="{{ old('fecha_fin', $proyecto->fecha_fin ?? '') }}" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             </div>
 
                             <div class="col-span-2">
-                                <label for="fk_estatus_proyecto" class="block font-semibold mb-1">Estatus del Proyecto</label>
-                                <select name="fk_estatus_proyecto" id="fk_estatus_proyecto" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                                <label for="estatus_proyecto_id" class="block font-semibold mb-1">Estatus del Proyecto</label>
+                                <select name="estatus_proyecto_id" id="estatus_proyecto_id" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                                     <option value="">-- Seleccione un estatus --</option>
                                     @foreach ($estatuses as $estatus)
                                         <option value="{{ $estatus->id }}" 
-                                            @selected(old('fk_estatus_proyecto', $proyecto->fk_estatus_proyecto ?? '') == $estatus->id)>
+                                            @selected(old('estatus_proyecto_id', $proyecto->estatus_proyecto_id ?? '') == $estatus->id)>
                                             {{ $estatus->nombre }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
+
                             <div class="col-span-2">
                                 <label for="descripcion" class="block font-semibold mb-1">Descripción</label>
                                 <textarea name="descripcion" id="descripcion" rows="4" class="w-full p-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ old('descripcion', $proyecto->descripcion ?? '') }}</textarea>

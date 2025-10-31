@@ -41,38 +41,32 @@
                                     
                                     <td class="py-3 px-4">
                                         @php
-                                            // Lógica para asignar colores según el ID del estatus
+                                            // Lógica de color (esto está bien)
                                             $colorClass = 'bg-gray-100 text-gray-800 border-gray-300'; // Default
-                                            
                                             if ($proyecto->estatusProyecto) {
                                                 switch ($proyecto->estatusProyecto->id) {
-                                                    case 1: // Activo
-                                                        $colorClass = 'bg-green-100 text-green-800 border-green-300';
-                                                        break;
-                                                    case 2: // Inactivo
-                                                        $colorClass = 'bg-red-100 text-red-800 border-red-300';
-                                                        break;
-                                                    case 3: // Completado
-                                                        $colorClass = 'bg-blue-100 text-blue-800 border-blue-300';
-                                                        break;
+                                                    case 1: $colorClass = 'bg-green-100 text-green-800 border-green-300'; break;
+                                                    case 2: $colorClass = 'bg-red-100 text-red-800 border-red-300'; break;
+                                                    case 3: $colorClass = 'bg-blue-100 text-blue-800 border-blue-300'; break;
                                                 }
                                             }
                                         @endphp
 
-                                        <select name="fk_estatus_proyecto" 
+                                        <select name="estatus_proyecto_id" 
                                                 class="estatus-select rounded-full font-semibold text-sm py-1 px-2 border {{ $colorClass }} transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                                 data-id="{{ $proyecto->id }}"
                                                 data-url="{{ route('proyectos.actualizarEstatus', $proyecto) }}">
                                             
                                             @foreach ($estatuses as $estatus)
                                                 <option value="{{ $estatus->id }}" 
-                                                    @selected($proyecto->fk_estatus_proyecto == $estatus->id)>
+                                                    @selected($proyecto->estatus_proyecto_id == $estatus->id)>
                                                     {{ $estatus->nombre }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         <span id="status-msg-{{ $proyecto->id }}" class="text-green-600 text-xs ml-2" style="display: none;"></span>
                                     </td>
+                                    
                                     <td class="py-3 px-4 text-right">
                                         <a href="{{ route('proyectos.edit', $proyecto) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
                                         
@@ -102,10 +96,8 @@
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const selectoresEstatus = document.querySelectorAll('.estatus-select');
 
-            // --- NUEVA FUNCIÓN ---
-            // Esta función cambia el color del <select> basado en el ID del estatus
+            // --- Función para cambiar el color del <select> ---
             function actualizarColorSelect(selectElement, nuevoEstatusId) {
-                // Quita todas las clases de color anteriores
                 selectElement.classList.remove(
                     'bg-green-100', 'text-green-800', 'border-green-300',
                     'bg-red-100', 'text-red-800', 'border-red-300',
@@ -113,7 +105,6 @@
                     'bg-gray-100', 'text-gray-800', 'border-gray-300'
                 );
 
-                // Añade la clase de color correspondiente
                 switch (String(nuevoEstatusId)) {
                     case '1': // Activo
                         selectElement.classList.add('bg-green-100', 'text-green-800', 'border-green-300');
@@ -128,7 +119,6 @@
                         selectElement.classList.add('bg-gray-100', 'text-gray-800', 'border-gray-300');
                 }
             }
-            // --- FIN DE NUEVA FUNCIÓN ---
 
             selectoresEstatus.forEach(select => {
                 select.addEventListener('change', function () {
@@ -136,8 +126,7 @@
                     const url = this.dataset.url;
                     const proyectoId = this.dataset.id;
                     const statusMsg = document.getElementById(`status-msg-${proyectoId}`);
-                    
-                    const selectElement = this; // Guardamos la referencia al <select>
+                    const selectElement = this; // Guardamos la referencia
 
                     statusMsg.style.display = 'none';
 
@@ -149,29 +138,23 @@
                             'Accept': 'application/json'
                         },
                         body: JSON.stringify({
-                            fk_estatus_proyecto: nuevoEstatusId 
+                            // 3. El body del JSON debe enviar 'estatus_proyecto_id'
+                            estatus_proyecto_id: nuevoEstatusId 
                         })
                     })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error en la respuesta del servidor');
-                        }
+                        if (!response.ok) { throw new Error('Error en la respuesta'); }
                         return response.json();
                     })
                     .then(data => {
                         if (data.success) {
-                            
-                            // --- LÍNEA AÑADIDA ---
-                            // Llama a la función para cambiar el color después de guardar
+                            // Actualiza el color
                             actualizarColorSelect(selectElement, nuevoEstatusId);
-
-                            // Muestra "Guardado!" y ocúltalo después de 2 segundos
+                            
                             statusMsg.innerText = 'Guardado!';
                             statusMsg.style.color = 'green';
                             statusMsg.style.display = 'inline';
-                            setTimeout(() => {
-                                statusMsg.style.display = 'none';
-                            }, 2000);
+                            setTimeout(() => { statusMsg.style.display = 'none'; }, 2000);
                         }
                     })
                     .catch(error => {
@@ -185,4 +168,5 @@
         });
     </script>
     @endpush
-    </x-app-layout>
+    @stack('scripts')
+</x-app-layout>

@@ -12,7 +12,7 @@ class ProyectoController extends Controller
     public function index()
     {
         $proyectos = Proyecto::with('estatusProyecto')->get(); 
-        $estatuses = EstatusProyecto::all(); // Necesario para el dropdown
+        $estatuses = EstatusProyecto::all(); // Necesario para el dropdown en la lista
         return view('proyectos.lista_proyectos', compact('proyectos', 'estatuses'));
     }
 
@@ -51,8 +51,13 @@ class ProyectoController extends Controller
         return view('proyectos.formulario_proyectos', compact('proyecto', 'estatuses'));
     }
 
+    /**
+     * Actualiza un proyecto existente en la base de datos.
+     * --- ESTA FUNCIÓN CAUSABA EL ERROR ---
+     */
     public function update(Request $request, Proyecto $proyecto)
     {
+        // CORRECCIÓN: Validamos 'estatus_proyecto_id'
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'costo' => 'required|numeric|min:0',
@@ -72,10 +77,12 @@ class ProyectoController extends Controller
      */
     public function actualizarEstatus(Request $request, Proyecto $proyecto)
     {
+        // CORRECCIÓN: Validamos 'estatus_proyecto_id'
         $request->validate([
             'estatus_proyecto_id' => 'required|exists:estatus_proyecto,id'
         ]);
 
+        // CORRECCIÓN: Usamos 'estatus_proyecto_id'
         $proyecto->estatus_proyecto_id = $request->estatus_proyecto_id;
         $proyecto->save();
 
@@ -90,7 +97,8 @@ class ProyectoController extends Controller
      */
     public function destroy(Proyecto $proyecto)
     {
-        $proyecto->update(['estatus_proyecto_id' => 2]); // ID 2 = Inactivo
+        // CORRECCIÓN: Usamos 'estatus_proyecto_id'
+        $proyecto->update(['estatus_proyecto_id' => 2]);
         
         return redirect()->route('proyectos.index')->with('success', 'El estatus del proyecto ha sido cambiado a inactivo.');
     }
