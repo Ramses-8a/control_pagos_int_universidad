@@ -11,28 +11,20 @@ class ProyectoController extends Controller
     
     public function index()
     {
-        
         $proyectos = Proyecto::with('estatusProyecto')->get(); 
-        
-        return view('proyectos.lista_proyectos', ['proyectos' => $proyectos]);
+        $estatuses = EstatusProyecto::all(); // Necesario para el dropdown
+        return view('proyectos.lista_proyectos', compact('proyectos', 'estatuses'));
     }
 
-    /**
-     * Muestra el formulario para crear un nuevo proyecto.
-     */
     public function create()
     {
         $estatuses = EstatusProyecto::all();
-        
         return view('proyectos.formulario_proyectos', compact('estatuses'));
     }
     
-    /**
-     * Guarda un nuevo proyecto en la base de datos.
-     */
     public function store(Request $request)
     {
-        // Valida usando 'fk_estatus_proyecto'
+        // Validamos usando 'estatus_proyecto_id'
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'costo' => 'required|numeric|min:0',
@@ -40,43 +32,27 @@ class ProyectoController extends Controller
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
             'descripcion' => 'nullable|string',
-            'fk_estatus_proyecto' => 'required|exists:estatus_proyecto,id', 
+            'estatus_proyecto_id' => 'required|exists:estatus_proyecto,id', 
         ]);
 
         Proyecto::create($validatedData);
-
         return redirect()->route('proyectos.index')->with('success', 'Proyecto creado exitosamente.');
     }
     
-    /**
-     * Muestra los detalles de un proyecto específico.
-     * ESTA ES LA FUNCIÓN MODIFICADA
-     */
     public function show(Proyecto $proyecto)
     {
-        // Carga la relación para poder usarla en la vista 'show'
         $proyecto->load('estatusProyecto'); 
-        
-        // Retorna la nueva vista 'show.blade.php'
         return view('proyectos.show', compact('proyecto'));
     }
 
-    /**
-     * Muestra el formulario para editar un proyecto existente.
-     */
     public function edit(Proyecto $proyecto)
     {
         $estatuses = EstatusProyecto::all();
-        
         return view('proyectos.formulario_proyectos', compact('proyecto', 'estatuses'));
     }
 
-    /**
-     * Actualiza un proyecto existente en la base de datos.
-     */
     public function update(Request $request, Proyecto $proyecto)
     {
-        // Valida usando 'fk_estatus_proyecto'
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'costo' => 'required|numeric|min:0',
@@ -84,12 +60,29 @@ class ProyectoController extends Controller
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
             'descripcion' => 'nullable|string',
-            'fk_estatus_proyecto' => 'required|exists:estatus_proyecto,id',
+            'estatus_proyecto_id' => 'required|exists:estatus_proyecto,id',
         ]);
  
         $proyecto->update($validatedData);
-        
         return redirect()->route('proyectos.index')->with('success', 'Proyecto actualizado exitosamente.');
+    }
+
+    /**
+     * Actualiza solo el estatus de un proyecto (vía AJAX).
+     */
+    public function actualizarEstatus(Request $request, Proyecto $proyecto)
+    {
+        $request->validate([
+            'estatus_proyecto_id' => 'required|exists:estatus_proyecto,id'
+        ]);
+
+        $proyecto->estatus_proyecto_id = $request->estatus_proyecto_id;
+        $proyecto->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Estatus actualizado.'
+        ]);
     }
 
     /**
@@ -97,8 +90,7 @@ class ProyectoController extends Controller
      */
     public function destroy(Proyecto $proyecto)
     {
-        // Actualiza usando 'fk_estatus_proyecto'
-        $proyecto->update(['fk_estatus_proyecto' => 2]);
+        $proyecto->update(['estatus_proyecto_id' => 2]); // ID 2 = Inactivo
         
         return redirect()->route('proyectos.index')->with('success', 'El estatus del proyecto ha sido cambiado a inactivo.');
     }
