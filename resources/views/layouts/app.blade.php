@@ -135,7 +135,7 @@
                 </li>
                 
                 <li class="{{ request()->routeIs('servicios.*') ? 'active' : '' }}">
-                    <a href="{{ route('servicios.index') }}"><i class="fas fa-project-diagram"></i> <span>Catálogos</span></a>
+                    <a href="{{ route('servicios.index') }}"><i class="fas fa-project-diagram"></i> <span>Servicios</span></a>
                 </li>
                 
                 {{-- Admin Dropdown --}}
