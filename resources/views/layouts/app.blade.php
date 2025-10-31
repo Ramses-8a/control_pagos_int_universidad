@@ -34,7 +34,6 @@
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> <span>Inicio</span></a>
                 </li>
-                <li><a href="#"><i class="fas fa-users"></i> Clientes</a></li>
                 {{-- Proyectos Dropdown --}}
                 <li class="dropdown-item {{ request()->routeIs('proyectos.*') ? 'active' : '' }}" x-data="{ open: false }">
                     <a href="#" @click="open = !open" class="dropdown-link">

@@ -20,7 +20,9 @@ class ReporteController extends Controller
         }
 
         if ($request->filled('estatus')) {
-            $query->where('estatus', $request->estatus);
+            $query->whereHas('estatusProyecto', function ($q) use ($request) {
+                $q->where('nombre', $request->estatus);
+            });
         }
 
         $proyectosFiltrados = $query->get();
