@@ -73,7 +73,7 @@
                                         <form action="{{ route('proyectos.destroy', $proyecto) }}" method="POST" class="inline-block ml-4" onsubmit="return confirm('¿Seguro que quieres cambiar el estatus a inactivo?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700 font-semibold">Borrar</button>
+                                            
                                         </form>
                                     </td>
                                 </tr>
