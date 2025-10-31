@@ -6,10 +6,20 @@ use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TareasController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Servicio;
 
+// web.php
 Route::get('/', function () {
-    return view('../auth/login');
-});
+    $serviciosDisponibles = Servicio::with('tipoServicio')
+        ->where('estatus', 1)
+        ->whereHas('tipoServicio', function ($query) {
+            $query->where('estatus', 1);
+        })
+        ->orderBy('nombre')
+        ->get();
+    
+    return view('principal', compact('serviciosDisponibles'));
+})->name('home');
 
 // Rutas para empleados
 use App\Http\Controllers\EmpleadoController;

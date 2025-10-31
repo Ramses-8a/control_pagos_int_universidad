@@ -40,6 +40,12 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="precio" class="block font-medium text-sm text-gray-700">Precio:</label>
+                            <input type="number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                   id="precio" name="precio" step="0.01" min="0" value="{{ old('precio') }}" required>
+                        </div>
+
+                        <div class="mb-4">
                             <label for="fk_tipo_servicio" class="block font-medium text-sm text-gray-700">Tipo de servicio:</label>
                             <select class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
                                     id="fk_tipo_servicio" name="fk_tipo_servicio" required>

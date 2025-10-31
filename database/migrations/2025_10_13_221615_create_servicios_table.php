@@ -11,10 +11,10 @@ return new class extends Migration
         Schema::create('servicios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->text('descripcion')->nullable(); // Agregado
+            $table->text('descripcion')->nullable(); 
             $table->decimal('costo', 8, 2);
-            $table->decimal('precio', 8, 2); // Agregado
-            $table->boolean('estatus')->default(true);
+            $table->decimal('precio', 8, 2); 
+            $table->enum('estatus', ['activo', 'inactivo'])->default('activo');
             
             // Relación con tipo_servicios
             $table->foreignId('fk_tipo_servicio')
