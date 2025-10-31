@@ -16,7 +16,7 @@ class Proyecto extends Model
         'fecha_fin',
         'costo',
         'precio',
-        'fk_estatus_proyecto',
+        'estatus_proyecto_id', // Nombre de columna correcto
     ];
 
     
@@ -30,13 +30,12 @@ class Proyecto extends Model
         return $this->hasMany(PagosEmpleados::class, 'fk_proyectos');
     }
 
+    /**
+     * Un proyecto PERTENECE A un estatus.
+     */
     public function estatusProyecto()
     {
+        // Clave foránea correcta
         return $this->belongsTo(EstatusProyecto::class, 'estatus_proyecto_id');
-    }
-
-    public function tableros()
-    {
-        return $this->hasMany(TableroProyecto::class, 'fk_proyecto');
     }
 }

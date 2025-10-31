@@ -41,21 +41,37 @@
                                     
                                     <td class="py-3 px-4">
                                         @php
-                                            $colorClass = 'bg-gray-100 text-gray-800';
-                                            $estatusNombre = 'Estatus Desconocido';
+                                            // Lógica para asignar colores según el ID del estatus
+                                            $colorClass = 'bg-gray-100 text-gray-800 border-gray-300'; // Default
                                             
                                             if ($proyecto->estatusProyecto) {
-                                                $estatusNombre = $proyecto->estatusProyecto->nombre;
                                                 switch ($proyecto->estatusProyecto->id) {
-                                                    case 1: $colorClass = 'bg-green-100 text-green-800'; break;
-                                                    case 2: $colorClass = 'bg-red-100 text-red-800'; break;
-                                                    case 3: $colorClass = 'bg-blue-100 text-blue-800'; break;
+                                                    case 1: // Activo
+                                                        $colorClass = 'bg-green-100 text-green-800 border-green-300';
+                                                        break;
+                                                    case 2: // Inactivo
+                                                        $colorClass = 'bg-red-100 text-red-800 border-red-300';
+                                                        break;
+                                                    case 3: // Completado
+                                                        $colorClass = 'bg-blue-100 text-blue-800 border-blue-300';
+                                                        break;
                                                 }
                                             }
                                         @endphp
-                                        <span class="px-3 py-1 text-sm rounded-full font-semibold {{ $colorClass }}">
-                                            {{ $estatusNombre }}
-                                        </span>
+
+                                        <select name="fk_estatus_proyecto" 
+                                                class="estatus-select rounded-full font-semibold text-sm py-1 px-2 border {{ $colorClass }} transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                                                data-id="{{ $proyecto->id }}"
+                                                data-url="{{ route('proyectos.actualizarEstatus', $proyecto) }}">
+                                            
+                                            @foreach ($estatuses as $estatus)
+                                                <option value="{{ $estatus->id }}" 
+                                                    @selected($proyecto->fk_estatus_proyecto == $estatus->id)>
+                                                    {{ $estatus->nombre }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span id="status-msg-{{ $proyecto->id }}" class="text-green-600 text-xs ml-2" style="display: none;"></span>
                                     </td>
                                     <td class="py-3 px-4 text-right">
                                         <a href="{{ route('proyectos.edit', $proyecto) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
@@ -79,4 +95,94 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const selectoresEstatus = document.querySelectorAll('.estatus-select');
+
+            // --- NUEVA FUNCIÓN ---
+            // Esta función cambia el color del <select> basado en el ID del estatus
+            function actualizarColorSelect(selectElement, nuevoEstatusId) {
+                // Quita todas las clases de color anteriores
+                selectElement.classList.remove(
+                    'bg-green-100', 'text-green-800', 'border-green-300',
+                    'bg-red-100', 'text-red-800', 'border-red-300',
+                    'bg-blue-100', 'text-blue-800', 'border-blue-300',
+                    'bg-gray-100', 'text-gray-800', 'border-gray-300'
+                );
+
+                // Añade la clase de color correspondiente
+                switch (String(nuevoEstatusId)) {
+                    case '1': // Activo
+                        selectElement.classList.add('bg-green-100', 'text-green-800', 'border-green-300');
+                        break;
+                    case '2': // Inactivo
+                        selectElement.classList.add('bg-red-100', 'text-red-800', 'border-red-300');
+                        break;
+                    case '3': // Completado
+                        selectElement.classList.add('bg-blue-100', 'text-blue-800', 'border-blue-300');
+                        break;
+                    default:
+                        selectElement.classList.add('bg-gray-100', 'text-gray-800', 'border-gray-300');
+                }
+            }
+            // --- FIN DE NUEVA FUNCIÓN ---
+
+            selectoresEstatus.forEach(select => {
+                select.addEventListener('change', function () {
+                    const nuevoEstatusId = this.value;
+                    const url = this.dataset.url;
+                    const proyectoId = this.dataset.id;
+                    const statusMsg = document.getElementById(`status-msg-${proyectoId}`);
+                    
+                    const selectElement = this; // Guardamos la referencia al <select>
+
+                    statusMsg.style.display = 'none';
+
+                    fetch(url, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken, 
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            fk_estatus_proyecto: nuevoEstatusId 
+                        })
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error en la respuesta del servidor');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            
+                            // --- LÍNEA AÑADIDA ---
+                            // Llama a la función para cambiar el color después de guardar
+                            actualizarColorSelect(selectElement, nuevoEstatusId);
+
+                            // Muestra "Guardado!" y ocúltalo después de 2 segundos
+                            statusMsg.innerText = 'Guardado!';
+                            statusMsg.style.color = 'green';
+                            statusMsg.style.display = 'inline';
+                            setTimeout(() => {
+                                statusMsg.style.display = 'none';
+                            }, 2000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        statusMsg.innerText = 'Error';
+                        statusMsg.style.color = 'red';
+                        statusMsg.style.display = 'inline';
+                    });
+                });
+            });
+        });
+    </script>
+    @endpush
+    </x-app-layout>
