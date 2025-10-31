@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="">
         <div class="table-container">
             <div class="table-header">
                 <h1 class="page-title">Lista de empleados</h1>
@@ -43,8 +43,12 @@
                                 <td>
                                     <span class="badge badge-secondary">{{ $empleado->periodoPago->nombre ?? 'No asignado' }}</span>
                                 </td>
+                            
                                 <td>
                                     <div class="action-buttons">
+                                        <a href="{{ route('empleados.historial', $empleado->id) }}" class="btn-action btn-history" title="Ver historial de pagos">
+                                            Historial
+                                        </a>
                                         <a href="{{ route('empleados.editar', $empleado->id) }}" class="btn-action btn-edit">Editar</a>
                                         
                                         @if($empleado->estatus == '1')
@@ -75,8 +79,12 @@
         </div>
     </div>
 
+    <style>
+
+    </style>
+
     <script>
-        
+        // Mostrar alertas desde session de Laravel
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
@@ -96,7 +104,7 @@
             });
         @endif
 
-       
+        // Confirmación para desactivar empleado
         function confirmarDesactivar(id, nombre) {
             Swal.fire({
                 title: '¿Desactivar empleado?',
@@ -109,7 +117,7 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    
+                    // Mostrar loading
                     Swal.fire({
                         title: 'Desactivando...',
                         text: 'Por favor espere',
@@ -119,13 +127,13 @@
                         }
                     });
                     
-                    
+                    // Enviar formulario
                     document.getElementById(`form-desactivar-${id}`).submit();
                 }
             });
         }
 
-     
+        // Confirmación para activar empleado
         function confirmarActivar(id, nombre) {
             Swal.fire({
                 title: '¿Reactivar empleado?',
@@ -138,7 +146,7 @@
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    
+                    // Mostrar loading
                     Swal.fire({
                         title: 'Reactivando...',
                         text: 'Por favor espere',
@@ -148,7 +156,7 @@
                         }
                     });
                     
-                    
+                    // Enviar formulario
                     document.getElementById(`form-activar-${id}`).submit();
                 }
             });

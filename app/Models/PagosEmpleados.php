@@ -19,6 +19,11 @@ class PagosEmpleados extends Model
         'fk_proyectos',
     ];
 
+      protected $casts = [
+        'fecha_pago' => 'date', 
+        'monto' => 'decimal:2'
+    ];
+
     public function empleado()
     {
         return $this->belongsTo(Empleado::class, 'fk_empleados');

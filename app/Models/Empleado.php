@@ -19,6 +19,8 @@ class Empleado extends Model
         'estatus' 
     ];
 
+    protected $appends = ['iniciales', 'nombre_completo'];
+
     public function puesto()
     {
         return $this->belongsTo(Puesto::class, 'fk_puestos');
@@ -37,6 +39,11 @@ class Empleado extends Model
 
 
     
+    public function getInicialesAttribute()
+    {
+        return mb_strtoupper(mb_substr($this->nombre, 0, 1) . mb_substr($this->apaterno, 0, 1));
+    }
+
     public function getNombreCompletoAttribute()
     {
         return "{$this->nombre} {$this->apaterno} {$this->amaterno}";
@@ -58,6 +65,6 @@ class Empleado extends Model
      */
     public function pagosEmpleados()
     {
-        return $this->hasMany(pagosEmpleados::class);
+        return $this->hasMany(PagosEmpleados::class, 'fk_empleados');
     }
 }

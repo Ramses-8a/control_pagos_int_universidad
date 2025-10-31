@@ -1,33 +1,33 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8"> 
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             @if (session('success'))
-                <div class="mb-4 rounded-lg bg-green-100 p-4 text-sm text-green-700">
-                    {{ session('success') }}
-                </div>
+            <div class="mb-4 rounded-lg bg-green-100 p-4 text-sm text-green-700">
+                {{ session('success') }}
+            </div>
             @endif
             @if (session('error'))
-                 <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700">
-                    {{ session('error') }}
-                </div>
+            <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700">
+                {{ session('error') }}
+            </div>
             @endif
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
                     <div class="flex justify-between items-center mb-6">
                         <h1 class="text-2xl font-bold">Gestión de servicios</h1>
-                        
+
                         <div class="flex gap-4">
                             <a href="{{ route('tipo_servicios.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold px-5 py-2 rounded-lg transition-colors">
                                 Administrar tipos de servicio
                             </a>
-                            
+
                             <a href="{{ route('servicios.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 py-2 rounded-lg transition-colors">
                                 Agregar un nuevo servicio
                             </a>
                         </div>
-                        </div>
+                    </div>
 
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
@@ -36,6 +36,7 @@
                                     <th class="py-3 px-4 font-semibold">Nombre</th>
                                     <th class="py-3 px-4 font-semibold">Descripción</th>
                                     <th class="py-3 px-4 font-semibold">Costo</th>
+                                    <th class="py-3 px-4 font-semibold">Precio</th>
                                     <th class="py-3 px-4 font-semibold">Tipo de servicio</th>
                                     <th class="py-3 px-4 font-semibold">Estatus</th>
                                     <th class="py-3 px-4 font-semibold text-right">Acciones</th>
@@ -47,11 +48,18 @@
                                     <td class="py-3 px-4">{{ $servicio->nombre }}</td>
                                     <td class="py-3 px-4">{{ $servicio->descripcion }}</td>
                                     <td class="py-3 px-4">${{ number_format($servicio->costo, 2) }}</td>
+                                    <td class="py-3 px-4">${{ number_format($servicio->precio, 2) }}</td>
                                     <td class="py-3 px-4">{{ $servicio->tipoServicio->nombre }}</td>
                                     <td class="py-3 px-4">
-                                        <span class="px-3 py-1 text-sm rounded-full font-semibold {{ $servicio->estatus == 'activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                            {{ ucfirst($servicio->estatus) }}
+                                        @if ($servicio->estatus == 'activo')
+                                        <span class="px-3 py-1 text-sm rounded-full font-semibold bg-green-100 text-green-800">
+                                            Activo
                                         </span>
+                                        @else
+                                        <span class="px-3 py-1 text-sm rounded-full font-semibold bg-red-100 text-red-800">
+                                            Inactivo
+                                        </span>
+                                        @endif
                                     </td>
                                     <td class="py-3 px-4 text-right">
                                         <a href="{{ route('servicios.edit', $servicio) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
@@ -63,17 +71,17 @@
                                     </td>
                                 </tr>
                                 @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-6 text-slate-500">No hay servicios registrados.</td>
+                                <tr class="text-center">
+                                    <td colspan="7" class="py-6 text-slate-500">No hay servicios registrados.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
             </div>
 
-            </div>
+        </div>
     </div>
 </x-app-layout>

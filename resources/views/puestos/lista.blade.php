@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="">
         <div class="table-container">
             <div class="table-header">
                 <h1 class="page-title">Lista de puestos</h1>

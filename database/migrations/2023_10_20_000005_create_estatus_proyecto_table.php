@@ -8,21 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('proyectos', function (Blueprint $table) {
-            
-            $table->foreignId('estatus_proyecto_id')
-                  ->default(1) 
-                  ->constrained('estatus_proyecto') 
-                  ->onDelete('restrict'); 
+        Schema::create('estatus_proyecto', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->boolean('estatus')->default(true);
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('proyectos', function (Blueprint $table) {
-            $table->dropForeign(['estatus_proyecto_id']);
-            $table->dropColumn('estatus_proyecto_id');
-      
-        });
+        Schema::dropIfExists('estatus_proyecto');
     }
 };

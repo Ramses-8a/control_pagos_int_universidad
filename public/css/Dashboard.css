@@ -11,6 +11,8 @@
         "calendar calendar alerts"
         "calendar calendar activities"
         "projects projects projects";
+    container-type: inline-size;
+    min-width: 950px;
 }
 
 /* Asignación de áreas a las secciones */
@@ -146,6 +148,7 @@
 }
 
 .alert-item, .upcoming-activities-section li {
+    cursor: pointer;
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -238,14 +241,13 @@
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     background-color: white;
-    cursor: pointer;
 }
 .btn-manage:hover { background-color: #f8f9fa; }
 
 /* =============================================== */
 /* Diseño Responsivo                               */
 /* =============================================== */
-@media (max-width: 1024px) {
+@container (max-width: 1024px) {
     .dashboard-grid-container {
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas:
@@ -259,7 +261,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@container (max-width: 768px) {
     .dashboard-grid-container {
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -273,4 +275,26 @@
     .summary-cards {
         grid-template-columns: 1fr;
     }
+
+    /* --- ✅ INICIO DE REGLAS RESPONSIVAS PARA CALENDARIO --- */
+
+    /* 1. Quitamos la altura mínima en móvil para que la vista de lista se ajuste */
+    .calendar-section {
+        min-height: auto;
+    }
+
+    /* 2. (Opcional) Hacemos la fuente del calendario un poco más pequeña */
+    .fc {
+        font-size: 0.9rem;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.15rem;
+    }
+    
+    /* --- ✅ FIN DE REGLAS RESPONSIVAS --- */
+}
+
+.fc-event {
+    cursor: pointer;
 }
