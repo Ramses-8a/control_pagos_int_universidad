@@ -28,8 +28,27 @@
                     <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
                 </li>
                 <li><a href="#"><i class="fas fa-users"></i> Clientes</a></li>
-                <li class="{{ request()->routeIs('proyectos.*') ? 'active' : '' }}">
-                    <a href="{{ route('proyectos.index') }}"><i class="fas fa-project-diagram"></i> Proyectos</a>
+                {{-- Proyectos Dropdown --}}
+                <li class="dropdown-item {{ request()->routeIs('proyectos.*') ? 'active' : '' }}" x-data="{ open: false }">
+                    <a href="#" @click="open = !open" class="dropdown-link">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Proyectos</span>
+                        <svg class="dropdown-arrow" x-bind:style="{ 'transform': open ? 'rotate(180deg)' : 'rotate(0deg)' }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <ul x-show="open" class="submenu" style="display: none;" x-transition>
+                        <li>
+                            <a href="{{ route('proyectos.index') }}">
+                                <i class="fas fa-list-alt"></i> <span>Ver Proyectos</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('proyectos.create') }}">
+                                <i class="fas fa-plus"></i> <span>Crear Proyecto</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
                     <a href="{{ route('reports.index') }}"><i class="fas fa-chart-bar"></i> Reportes</a>
