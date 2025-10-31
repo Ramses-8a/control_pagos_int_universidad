@@ -32,7 +32,7 @@
 
             <ul class="sidebar-nav">
                 <li class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+                    <a href="{{ route('dashboard') }}"><i class="fas fa-home"></i> <span>Inicio</span></a>
                 </li>
                 <li><a href="#"><i class="fas fa-users"></i> <span>Clientes</span></a></li>
                 <li class="{{ request()->routeIs('proyectos.*') ? 'active' : '' }}">
@@ -92,7 +92,6 @@
                 </li>
 
                 <li><a href="#"><i class="fas fa-book"></i> <span>Catálogo</span></a></li>
-                <li><a href="#"><i class="fas fa-cog"></i> <span>Configuración</span></a></li>
                 
                 {{-- Admin Dropdown --}}
                 <li class="dropdown-item" x-data="{ open: false }">
@@ -105,14 +104,14 @@
                     <ul x-show="open" class="submenu" style="display: none;" x-transition>
                         <li>
                             <a href="{{ route('profile.edit') }}">
-                                <i class="fas fa-user-circle"></i> <span>{{ __('Profile') }}</span>
+                                <i class="fas fa-user-circle"></i> <span>{{ __('Perfil') }}</span>
                             </a>
                         </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                                 @csrf
                                 <a href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
-                                    <i class="fas fa-sign-out-alt"></i> <span>{{ __('Log Out') }}</span>
+                                    <i class="fas fa-sign-out-alt"></i> <span>{{ __('Salir') }}</span>
                                 </a>
                             </form>
                         </li>
