@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->text('descripcion')->nullable(); 
-            $table->decimal('costo', 8, 2);
-            $table->decimal('precio', 8, 2); 
+            $table->decimal('costo', 15, 2);
+            $table->decimal('precio', 15, 2); 
             $table->enum('estatus', ['activo', 'inactivo'])->default('activo');
             
             // Relación con tipo_servicios
