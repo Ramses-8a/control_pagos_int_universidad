@@ -60,6 +60,10 @@
                     <a href="{{ route('reports.index') }}"><i class="fas fa-chart-bar"></i> <span>Reportes</span></a>
                 </li>
 
+                <li class="{{ request()->routeIs('clientes.*') ? 'active' : '' }}">
+                    <a href="{{ route('clientes.index') }}"><i class="fas fa-user-tie"></i> <span>Clientes</span></a>
+                </li>
+
                 {{-- Empleados Dropdown --}}
                 <li class="dropdown-item" x-data="{ open: false }">
                     <!-- Eliminamos el <span> extra del título aquí, el nombre ya está en <a> --><a href="#" @click="open = !open" class="dropdown-link">
