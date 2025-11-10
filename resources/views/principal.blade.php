@@ -172,19 +172,17 @@
                 });
             }
 
-            // Si hay errores al recargar, abre el modal automáticamente
             @if ($errors->any())
                 openModal();
             @endif
 
-            // Auto-eliminar alerta de éxito (Toast)
             const successAlert = document.getElementById('success-alert');
             if (successAlert) {
                 setTimeout(() => {
                     successAlert.classList.remove('translate-x-0', 'opacity-100');
                     successAlert.classList.add('translate-x-full', 'opacity-0');
                     setTimeout(() => successAlert.remove(), 500);
-                }, 3000); // Desaparece a los 3 segundos
+                }, 3000); 
             }
         });
     </script>
