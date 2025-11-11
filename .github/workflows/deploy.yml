@@ -2,7 +2,7 @@ name:  Deploy Laravel to HostGator (separated public)
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   deploy:
