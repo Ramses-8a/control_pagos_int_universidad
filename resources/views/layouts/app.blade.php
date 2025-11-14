@@ -18,6 +18,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @stack('scripts')
 </head>
 
 <body class="font-sans antialiased">
@@ -58,6 +59,10 @@
 
                 <li class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
                     <a href="{{ route('reports.index') }}"><i class="fas fa-chart-bar"></i> <span>Reportes</span></a>
+                </li>
+
+                <li class="{{ request()->routeIs('clientes.*') ? 'active' : '' }}">
+                    <a href="{{ route('clientes.index') }}"><i class="fas fa-user-tie"></i> <span>Clientes</span></a>
                 </li>
 
                 {{-- Empleados Dropdown --}}
@@ -135,7 +140,7 @@
                 </li>
                 
                 <li class="{{ request()->routeIs('servicios.*') ? 'active' : '' }}">
-                    <a href="{{ route('servicios.index') }}"><i class="fas fa-project-diagram"></i> <span>Catálogos</span></a>
+                    <a href="{{ route('servicios.index') }}"><i class="fas fa-project-diagram"></i> <span>Servicios</span></a>
                 </li>
                 
                 {{-- Admin Dropdown --}}

@@ -1,8 +1,8 @@
-name:  Deploy Laravel to HostGator (separated public)
+name: Deploy Laravel to HostGator (separated public)
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -12,9 +12,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # --- PASO 1: Instalar PHP ---
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2' # Asegúrate que sea tu versión de PHP
+          extensions: mbstring, dom, curl, openssl # Extensiones comunes
+          
       - name: Install PHP dependencies
         run: composer install --no-dev --optimize-autoloader
 
+      # --- PASO 2: Instalar Node y Compilar Assets (NUEVO) ---
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # O la versión que uses en 'package.json'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Build frontend assets (Vite)
+        run: npm run build
+
+      # --- PASO 3: Subir Backend ---
       - name: Deploy backend (Laravel)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -31,6 +52,8 @@ jobs:
             */tests/*
             **/.env.example
             **/README.md
+            
+      # --- PASO 4: Subir Frontend (la carpeta 'public') ---
       - name: Deploy public assets
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:

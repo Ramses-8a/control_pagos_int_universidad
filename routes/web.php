@@ -7,6 +7,7 @@ use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\TareasController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Servicio;
+use App\Http\Controllers\ContactoController;
 
 // Controladores
 use App\Http\Controllers\EmpleadoController;
@@ -28,6 +29,9 @@ Route::get('/', function () {
     
     return view('principal', compact('serviciosDisponibles'));
 })->name('home');
+
+
+Route::post('/contacto', [ContactoController::class, 'store'])->name('contacto.store');
 
 // Rutas para empleados
 Route::get('/empleados/create', [EmpleadoController::class, 'create'])->name('empleados.create');
@@ -77,6 +81,9 @@ Route::middleware('auth')->group(function () {
 
     // Rutas para reportes
     Route::get('/reports', [ReporteController::class, 'index'])->name('reports.index');
+
+    // rutas clientes
+    Route::get('/clientes', [ContactoController::class, 'index'])->name('clientes.index');
 
     // Rutas para TableroProyecto
     Route::get('/tableros', [TableroProyectoController::class, 'index'])->name('tableros.index');
