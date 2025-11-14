@@ -92,6 +92,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/tableros/{tablero}', [TableroProyectoController::class, 'update'])->name('tableros.update');
     Route::put('/tableros/{tablero}/status', [TableroProyectoController::class, 'updateStatus'])->name('tableros.updateStatus');
     Route::delete('/tableros/{tablero}', [TableroProyectoController::class, 'destroy'])->name('tableros.destroy');
+
+        // --- AÑADIR ESTAS DOS LÍNEAS ---
+    Route::get('/tareas/{tarea}/edit', [TareasController::class, 'edit'])->name('tareas.edit');
+    Route::put('/tareas/{tarea}', [TareasController::class, 'update'])->name('tareas.update');
+    Route::delete('/tareas/{tarea}', [TareasController::class, 'destroy'])->name('tareas.destroy'); 
 });
 
 require __DIR__.'/auth.php';
