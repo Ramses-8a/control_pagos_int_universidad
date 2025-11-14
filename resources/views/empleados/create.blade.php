@@ -65,10 +65,10 @@
                 @error('fk_puestos') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
-            <div class="form-group">
+                    <div class="form-group">
                 <label for="fk_periodo_pago" class="form-label">Periodo de pago:</label>
-                <select name="fk_periodo_pago" id="fk_periodo_pago" class="form-select" required>
-                    <option value="">Seleccione un periodo de pago</option>
+                <select name="fk_periodo_pago" id="fk_periodo_pago" class="form-select">
+                    <option value="">Seleccione un periodo de pago (opcional)</option>
                     @foreach($periodosPago as $periodo)
                         <option value="{{ $periodo->id }}" {{ old('fk_periodo_pago') == $periodo->id ? 'selected' : '' }}>
                             {{ $periodo->nombre }}
@@ -117,16 +117,16 @@
             const correo = document.getElementById('correo').value.trim();
             const fk_puestos = document.getElementById('fk_puestos').value;
             const fk_periodo_pago = document.getElementById('fk_periodo_pago').value;
-
-            if (!nombre || !apaterno || !amaterno || !correo || !fk_puestos || !fk_periodo_pago) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos incompletos',
-                    text: 'Por favor, complete todos los campos requeridos',
-                    confirmButtonText: 'Entendido'
-                });
-                return;
-            }
+            // Validar campos
+        if (!nombre || !apaterno || !amaterno || !correo || !fk_puestos) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos incompletos',
+                text: 'Por favor, complete los campos requeridos',
+                confirmButtonText: 'Entendido'
+            });
+        return;
+}
 
             // Validar formato de correo
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
