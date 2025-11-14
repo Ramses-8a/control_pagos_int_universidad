@@ -219,3 +219,30 @@
     margin-bottom: 0 !important;
 }
 
+/* --- (AÑADIR ESTO AL FINAL DE Tareas.css) --- */
+
+/* Ajuste para el header de la tarea para alinear el nuevo botón */
+.kanban-task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Estilos para el nuevo botón de eliminar */
+.kanban-task-delete-btn {
+    background: none;
+    border: none;
+    color: #9ca3af; /* gris-400 */
+    font-size: 1.25rem; /* Un poco más grande para ser fácil de clickear */
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px; /* Pequeño padding */
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.kanban-task-delete-btn:hover {
+    background-color: #f3f4f6; /* gris-100 */
+    color: #ef4444; /* red-500 */
+}
