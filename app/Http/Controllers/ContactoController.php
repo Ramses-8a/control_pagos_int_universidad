@@ -12,7 +12,7 @@ class ContactoController extends Controller
         $datos = $request->validate([
             'nombre' => 'required|string|max:100',
             'correo' => 'required|email|max:255',
-            'telefono' => 'required|string|max:10',
+            'telefono' => 'string|max:10',
             'servicio_id' => 'required',
         ]);
 

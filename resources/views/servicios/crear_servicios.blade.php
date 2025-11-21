@@ -37,7 +37,7 @@
                             <label for="costo" class="block font-medium text-sm text-gray-700">Costo:</label>
                             <input type="number"
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                id="costo" name="costo" step="0.01" min="0" value="{{ old('costo') }}" required
+                                id="costo" name="costo" step="0.01" min="0" value="{{ old('costo') }}"
                                 oninput="checkLength(this, 'warning-costo')">
                             <p id="warning-costo" class="hidden text-red-600 text-sm mt-1">
                                 ¿Estás seguro que es el costo correcto?
@@ -48,7 +48,7 @@
                     <label for="precio" class="block font-medium text-sm text-gray-700">Precio:</label>
                     <input type="number"
                         class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                        id="precio" name="precio" step="0.01" min="0" value="{{ old('precio') }}" required
+                        id="precio" name="precio" step="0.01" min="0" value="{{ old('precio') }}"
                         oninput="checkLength(this, 'warning-precio')">
                     <p id="warning-precio" class="hidden text-red-600 text-sm mt-1">
                         ¿Estás seguro que es el precio correcto?
