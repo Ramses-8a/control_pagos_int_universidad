@@ -11,8 +11,8 @@ class ContactoController extends Controller
     {
         $datos = $request->validate([
             'nombre' => 'required|string|max:100',
-            'correo' => 'required|email|max:255',
-            'telefono' => 'string|max:10',
+            'correo' => 'required_without:telefono|nullable|email|max:255',
+            'telefono' => 'required_without:correo|nullable|string|max:10',
             'servicio_id' => 'required',
         ]);
 

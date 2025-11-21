@@ -112,12 +112,12 @@
                         <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3" required maxlength="100" placeholder="Ej. Juan Pérez">
                     </div>
                     <div>
-                        <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+                        <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico <span class="text-gray-400 text-xs">(Opcional si pones teléfono)</span></label>
                         <input type="email" name="correo" id="correo" value="{{ old('correo') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3" required maxlength="255" placeholder="juan@ejemplo.com">
                     </div>
                     <div>
-                        <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-                        <input type="tel" name="telefono" id="telefono" value="{{ old('telefono') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3" maxlength="10" placeholder="10 dígitos">
+                        <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono <span class="text-gray-400 text-xs">(Opcional si pones correo)</span></label>
+                        <input type="tel" name="telefono" id="telefono" value="{{ old('telefono') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3" required maxlength="10" placeholder="10 dígitos">
                     </div>
                     <div>
                         <label for="servicio" class="block text-sm font-medium text-gray-700 mb-1">Servicio de interés</label>
@@ -143,6 +143,30 @@
     </div>
 
     <script>
+
+        const emailInput = document.getElementById('correo');
+            const phoneInput = document.getElementById('telefono');
+
+            const toggleContactRequirement = () => {
+                if (emailInput.value.trim() !== "") {
+                    phoneInput.removeAttribute('required');
+                } else {
+                    phoneInput.setAttribute('required', 'required');
+                }
+
+                if (phoneInput.value.trim() !== "") {
+                    emailInput.removeAttribute('required');
+                } else {
+                    emailInput.setAttribute('required', 'required');
+                }
+            };
+
+            // Escuchar cuando el usuario escribe
+            if(emailInput && phoneInput) {
+                emailInput.addEventListener('input', toggleContactRequirement);
+                phoneInput.addEventListener('input', toggleContactRequirement);
+            }
+
         document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById('contactModal');
             const modalContent = document.getElementById('modalContent');
