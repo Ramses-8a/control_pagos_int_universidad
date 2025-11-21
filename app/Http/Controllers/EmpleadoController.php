@@ -27,7 +27,7 @@ class EmpleadoController extends Controller
             'amaterno' => 'required|string|max:255',
             'correo' => 'required|email|unique:empleados',
             'fk_puestos' => 'required|exists:puestos,id',
-            'fk_periodo_pago' => 'nullable|exists:periodo_pagos,id', 
+            'fk_periodo_pago' => 'nullable|exists:periodo_pago,id', 
         ]);
 
         if ($validator->fails()) {
