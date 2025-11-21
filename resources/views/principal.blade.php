@@ -117,7 +117,7 @@
                     </div>
                     <div>
                         <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-                        <input type="tel" name="telefono" id="telefono" value="{{ old('telefono') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3" required maxlength="10" placeholder="10 dígitos">
+                        <input type="tel" name="telefono" id="telefono" value="{{ old('telefono') }}" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3" maxlength="10" placeholder="10 dígitos">
                     </div>
                     <div>
                         <label for="servicio" class="block text-sm font-medium text-gray-700 mb-1">Servicio de interés</label>
