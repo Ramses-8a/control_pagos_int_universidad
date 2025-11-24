@@ -60,11 +60,13 @@ class Empleado extends Model
     {
         $this->update(['status' => '1']);
     }
-    /**
-     * Relación para los gastos
-     */
+    
     public function pagosEmpleados()
     {
         return $this->hasMany(PagosEmpleados::class, 'fk_empleados');
+    }
+    public function proyectos()
+    {
+        return $this->belongsToMany(Proyecto::class, 'empleado_proyecto', 'empleado_id', 'proyecto_id');
     }
 }
