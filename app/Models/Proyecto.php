@@ -16,39 +16,34 @@ class Proyecto extends Model
         'fecha_fin',
         'costo',
         'precio',
-        'estatus_proyecto_id', 
+        'estatus_proyecto_id',
     ];
 
-    
+   
+    public function estatusProyecto()
+    {
+        return $this->belongsTo(EstatusProyecto::class, 'estatus_proyecto_id');
+    }
+
+
     public function tareas()
     {
         return $this->hasMany(Tarea::class, 'fk_proyectos');
     }
 
+   
+    public function costos()
+    {
+        return $this->hasMany(CostoProyecto::class, 'proyecto_id');
+    }
+
+   
     public function pagosEmpleados()
     {
         return $this->hasMany(PagosEmpleados::class, 'fk_proyectos');
     }
-
-    //un proyecto tiene un estatus
-     
-    public function estatusProyecto()
+    public function empleados()
     {
-      
-        return $this->belongsTo(EstatusProyecto::class, 'estatus_proyecto_id');
-    }
-
-    //ganancia estimada del proyecto
-
-    public function calcularGanancia()
-    {   
-        return $this->precio - $this->costo;
-    }
-    //verifica si el proyecto tiene el estatus de completado
-
- 
-    public function estaCompletado(): bool
-    {
-        return $this->estatus_proyecto_id == 3;
+        return $this->belongsToMany(Empleado::class, 'empleado_proyecto', 'proyecto_id', 'empleado_id');
     }
 }
