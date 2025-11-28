@@ -8,23 +8,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProyectoFactory extends Factory
 {
-    /**
-     * El modelo asociado a la factory.
-     *
-     * @var string
-     */
-    protected $model = Proyecto::class; 
+    protected $model = Proyecto::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            'nombre' => $this->faker->catchPhrase,
-            'descripcion' => $this->faker->paragraph,
+            'nombre' => $this->faker->sentence(),        // ← CORREGIDO
+            'descripcion' => $this->faker->paragraph(),  // ← CORREGIDO
             'costo' => $this->faker->randomFloat(2, 1000, 50000),
             'precio' => $this->faker->randomFloat(2, 60000, 200000),
             'fecha_inicio' => now()->subDays(rand(1, 30)),

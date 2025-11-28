@@ -10,7 +10,6 @@ class EstatusProyecto extends Model
 {
     use HasFactory;
     
-    // Especifica el nombre de la tabla
     protected $table = 'estatus_proyecto';
     
     // Un estatus puede tener muchos proyectos
