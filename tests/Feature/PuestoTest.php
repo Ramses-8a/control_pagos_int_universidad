@@ -22,7 +22,7 @@ class PuestoTest extends TestCase
         $puesto = new Puesto();
         $puesto->descripcion = 'Encargado de proyecto';
         
-        $this->assertEquals('Encargado de proyecti', $puesto->descripcion);
+        $this->assertEquals('Encargado de proyecto', $puesto->descripcion);
     }
 
     /** @test */

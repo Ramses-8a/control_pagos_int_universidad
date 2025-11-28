@@ -2,18 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\EstatusProyecto; 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class EstatusProyectoFactory extends Factory
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EstatusTarea>
+ */
+class EstatusTareaFactory extends Factory
 {
-    /**
-     * El modelo asociado a la factory.
-     *
-     * @var string
-     */
-    protected $model = EstatusProyecto::class; 
-
     /**
      * Define the model's default state.
      *
@@ -22,7 +17,6 @@ class EstatusProyectoFactory extends Factory
     public function definition(): array
     {
         return [
-           
             'nombre' => $this->faker->word(),
             'estatus' => 1, 
         ];
