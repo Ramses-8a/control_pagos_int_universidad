@@ -27,8 +27,8 @@ class ServicioController extends Controller
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:150',
-            'costo' => 'nullable|numeric|min:0',
-            'precio' => 'nullable|numeric|min:0',
+            'costo' => 'required|numeric|min:0',
+            'precio' => 'required|numeric|min:0',
             'fk_tipo_servicio' => 'required|exists:tipo_servicios,id',
         ]);
 
