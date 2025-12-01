@@ -35,13 +35,13 @@
                         <div class="mb-4">
                             <label for="costo" class="block font-medium text-sm text-gray-700">Costo:</label>
                             <input type="number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                id="costo" name="costo" step="0.01" min="0" value="{{ old('costo', $servicio->costo) }}" required>
+                                id="costo" name="costo" step="0.01" min="0" value="{{ old('costo', $servicio->costo) }}">
                         </div>
 
                         <div class="mb-4">
                             <label for="precio" class="block font-medium text-sm text-gray-700">Precio:</label>
                             <input type="number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                id="precio" name="precio" step="0.01" min="0" value="{{ old('precio', $servicio->precio) }}" required>
+                                id="precio" name="precio" step="0.01" min="0" value="{{ old('precio', $servicio->precio) }}">
                         </div>
 
                         <div class="mb-4">

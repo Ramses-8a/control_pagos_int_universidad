@@ -1,62 +1,59 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Models\Servicio;
-use PHPUnit\Framework\TestCase;
+use App\Models\TipoServicio;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ServicioTest extends TestCase
 {
-    
-    public function puede_instanciar_servicio_con_atributos()
+    use RefreshDatabase;
+    /** @test */
+    public function un_servicio_se_puede_crear_correctamente()
     {
-        $servicio = new Servicio([
-            'nombre' => 'Instalación de SO',
-            'costo' => 150.50,
-            'precio' => 300.00,
-        ]);
-
-        $this->assertEquals('Instalación de SO', $servicio->nombre);
-        $this->assertEquals(150.50, $servicio->costo);
-        $this->assertEquals(300.00, $servicio->precio);
-    }
-
-    
-    public function verifica_calculo_de_ganancia()
-    {
-        $servicio = new Servicio();
-        $servicio->precio = 500;
-        $servicio->costo = 200;
-
-        $ganancia = $servicio->precio - $servicio->costo;
-        
-        $this->assertEquals(300, $ganancia);
-    }
-
-    
-    public function los_atributos_son_nulos_inicialmente()
-    {
-        $servicio = new Servicio();
-
-        $this->assertNull($servicio->nombre);
-        $this->assertNull($servicio->descripcion);
-        $this->assertNull($servicio->costo);
-        $this->assertNull($servicio->precio);
-    }
-
-    public function atributos_no_fillable_son_ignorados_en_mass_assignment()
-    {
-        $servicio = new Servicio();
-        
+        $tipo = TipoServicio::create(['nombre' => 'General', 'estatus' => 1]);
         $datos = [
-            'nombre' => 'Servicio de Red', 
-            'id_secreto' => 12345         
+            'nombre' => 'Formateo de PC',
+            'precio' => 500.00,
+            'costo' => 200.00,
+            'descripcion' => 'Limpieza completa',
+            'fk_tipo_servicio' => $tipo->id,
         ];
-
-        $servicio->fill($datos);
-
-        $this->assertEquals('Servicio de Red', $servicio->nombre);
-
-        $this->assertArrayNotHasKey('id_secreto', $servicio->getAttributes());
+        $response = $this->post(route('servicios.store'), $datos);
+        $response->assertRedirect(route('servicios.index')); 
+        $this->assertDatabaseHas('servicios', ['nombre' => 'Formateo de PC']);
+    }
+    /** @test */
+    public function el_nombre_y_precio_son_obligatorios()
+    {
+        $response = $this->post(route('servicios.store'), [
+            'nombre' => '',
+            'precio' => '',
+        ]);
+        $response->assertSessionHasErrors(['nombre', 'precio']);
+    }
+    /** @test */
+    public function el_precio_no_puede_ser_negativo()
+    {
+        $tipo = TipoServicio::create(['nombre' => 'General', 'estatus' => 1]);
+        $response = $this->post(route('servicios.store'), [
+            'nombre' => 'Instalación',
+            'descripcion' => 'Test',
+            'precio' => -100.00,
+            'fk_tipo_servicio' => $tipo->id,
+        ]);
+        $this->assertDatabaseMissing('servicios', ['precio' => -100.00]);
+        $response->assertSessionHasErrors('precio');
+    }
+    /** @test */
+    public function el_precio_debe_ser_un_numero()
+    {
+        $response = $this->post(route('servicios.store'), [
+            'nombre' => 'Instalación',
+            'precio' => 'veinte pesos',
+        ]);
+        $response->assertSessionHasErrors('precio');
     }
 }
