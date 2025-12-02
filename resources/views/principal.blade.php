@@ -92,7 +92,7 @@
         </div>
     </main>
 
-    <footer class="bg-white border-t">
+    <footer class="bg-white border-t mt-12">
         <div class="container mx-auto px-6 py-6">
             <p class="text-gray-600 text-sm text-center">&copy; Todos los derechos reservados {{ date('Y') }}</p>
         </div>
