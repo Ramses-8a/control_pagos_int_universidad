@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -20,7 +19,9 @@
 
                     <form action="{{ route('servicios.update', $servicio) }}" method="POST">
                         @csrf
-                        @method('PUT') <div class="mb-4">
+                        @method('PUT') 
+                        
+                        <div class="mb-4">
                             <label for="nombre" class="block font-medium text-sm text-gray-700">Nombre del servicio:</label>
                             <input type="text" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 id="nombre" name="nombre" value="{{ old('nombre', $servicio->nombre) }}" required>
@@ -29,19 +30,35 @@
                         <div class="mb-4">
                             <label for="descripcion" class="block font-medium text-sm text-gray-700">Descripción:</label>
                             <input type="text" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                id="descripcion" name="descripcion" step="0.01" min="0" value="{{ old('descripcion', $servicio->descripcion) }}" required>
+                                id="descripcion" name="descripcion" value="{{ old('descripcion', $servicio->descripcion) }}" required>
                         </div>
 
                         <div class="mb-4">
-                            <label for="costo" class="block font-medium text-sm text-gray-700">Costo:</label>
-                            <input type="number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                id="costo" name="costo" step="0.01" min="0" value="{{ old('costo', $servicio->costo) }}">
+                            <label for="costo" class="block font-medium text-sm text-gray-700">Costo <span class="text-gray-400 text-xs">(Opcional)</span>:</label>
+                            <input type="number" 
+                                class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                id="costo" name="costo" step="0.01" min="0" 
+                                value="{{ old('costo', $servicio->costo) }}"
+                                placeholder="0.00"
+                                oninput="checkLength(this, 'warning-costo')">
+                            
+                            <p id="warning-costo" class="hidden text-red-600 text-sm mt-1">
+                                ¿Estás seguro que es el costo correcto?
+                            </p>
                         </div>
 
                         <div class="mb-4">
-                            <label for="precio" class="block font-medium text-sm text-gray-700">Precio:</label>
-                            <input type="number" class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                id="precio" name="precio" step="0.01" min="0" value="{{ old('precio', $servicio->precio) }}">
+                            <label for="precio" class="block font-medium text-sm text-gray-700">Precio <span class="text-gray-400 text-xs">(Opcional)</span>:</label>
+                            <input type="number" 
+                                class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                id="precio" name="precio" step="0.01" min="0" 
+                                value="{{ old('precio', $servicio->precio) }}"
+                                placeholder="0.00"
+                                oninput="checkLength(this, 'warning-precio')">
+                                
+                            <p id="warning-precio" class="hidden text-red-600 text-sm mt-1">
+                                ¿Estás seguro que es el precio correcto?
+                            </p>
                         </div>
 
                         <div class="mb-4">
@@ -80,3 +97,15 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function checkLength(input, warningId) {
+        const warningElement = document.getElementById(warningId);
+        // Verifica si hay valor antes de checar la longitud
+        if (input.value && input.value.length >= 6) {
+            warningElement.classList.remove('hidden');
+        } else {
+            warningElement.classList.add('hidden');
+        }
+    }
+</script>
