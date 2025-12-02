@@ -1,4 +1,5 @@
 <x-app-layout>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ ('Gestión de Tipos de Servicio') }}
@@ -49,14 +50,14 @@
                                     <td class="py-3 px-4 text-right">
                                         <a href="{{ route('tipo_servicios.edit', $tipo) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
                                         
-                                        <form action="{{ route('tipo_servicios.destroy', $tipo->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        
-                                        <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este tipo de servicio?')">
-                                            Borrar
-                                        </button>
-                                    </form>
+                                        <form id="delete-form-{{ $tipo->id }}" action="{{ route('tipo_servicios.destroy', $tipo->id) }}" method="POST" style="display: inline;">
+    @csrf
+    @method('DELETE')
+    
+    <button type="button" class="text-red-600 hover:text-red-900 ml-2" onclick="confirmarBorrado({{ $tipo->id }})">
+        Borrar
+    </button>
+</form>
                                     </td>
                                 </tr>
                                 @empty
@@ -73,3 +74,22 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    function confirmarBorrado(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esta acción!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        })
+    }
+</script>
