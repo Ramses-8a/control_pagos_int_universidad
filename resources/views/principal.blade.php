@@ -61,8 +61,8 @@
         </div>
     </header>
 
-    <main class="pt-16 flex-grow">
-        <div class="container mx-auto px-6">
+        <main class="pt-16 pb-20 flex-grow">        
+            <div class="container mx-auto px-6">
             <div class="text-center mb-16">
                 <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Conoce los servicios disponibles</h1>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explora nuestra oferta de servicios diseñados para ti.</p>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Gestión de Tipos de Servicio') }}
+            {{ ('Gestión de Tipos de Servicio') }}
         </h2>
     </x-slot>
 
@@ -49,11 +49,14 @@
                                     <td class="py-3 px-4 text-right">
                                         <a href="{{ route('tipo_servicios.edit', $tipo) }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">Editar</a>
                                         
-                                        <form action="{{ route('tipo_servicios.destroy', $tipo) }}" method="POST" class="inline-block ml-4" onsubmit="return confirm('¿Seguro que quieres eliminar este tipo de servicio?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700 font-semibold">Borrar</button>
-                                        </form>
+                                        <form action="{{ route('tipo_servicios.destroy', $tipo->id) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        
+                                        <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este tipo de servicio?')">
+                                            Borrar
+                                        </button>
+                                    </form>
                                     </td>
                                 </tr>
                                 @empty
